@@ -3,11 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
@@ -32,7 +28,10 @@
       .zoom-cell .zoom-img { transition-duration: 0.01ms !important; }
     }
   </style>
-</helmet>
+
+</head>
+<body>
+
 <div style="min-height:100vh; background:rgb(249,250,251); font-family:'JetBrains Mono',monospace; color:rgb(60,60,60)">
 
   <!-- header -->
@@ -266,106 +265,6 @@
     </div>
   </div>
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  state = { flowIdx: 0, catalogIdx: 0, sliderPos: 50, emailCopied: false };
-  copyEmail = () => {
-    const text = 'nicakam788@gmail.com';
-    const markCopied = () => {
-      this.setState({ emailCopied: true });
-      clearTimeout(this._copyTimer);
-      this._copyTimer = setTimeout(() => this.setState({ emailCopied: false }), 1600);
-    };
-    let success = false;
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      success = document.execCommand('copy');
-      document.body.removeChild(ta);
-    } catch (e) {}
-    if (success) {
-      markCopied();
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(markCopied).catch(() => {});
-    }
-  };
-  renderVals() {
-    const slides = [
-      { src: './assets/case1-userflow.png', cap: 'Состояния главной: ввод кода, поиск, ошибки' },
-      { src: './assets/case1-flow-2.png', cap: 'Адаптив под 1440/1024/768' },
-      { src: './assets/case1-flow-3.png', cap: 'Поведение карточек и категорий между брейкпоинтами' },
-      { src: './assets/case1-flow-4.png', cap: 'Инструкция для разработчиков' },
-    ];
-    const i = this.state.flowIdx;
-
-    const catalogSlides = [
-      { src: './assets/case1-catalog-final.png', cap: 'Финальный экран каталога' },
-      { src: './assets/case1-search-input.png', cap: 'Поиск по каталогу: ввод запроса' },
-      { src: './assets/case1-search-results.png', cap: 'Поиск по каталогу: подсказки и результаты' },
-      { src: './assets/case1-code-entry.png', cap: 'Ввод кода мероприятия' },
-    ];
-    const j = this.state.catalogIdx;
-
-    return {
-      emailLabel: this.state.emailCopied ? 'Скопировано ✓' : 'Почта → nicakam788@gmail.com',
-      copyEmail: this.copyEmail,
-      flowCaption: slides[i].cap,
-      flowPos: (i + 1) + ' / ' + slides.length,
-      flowPrev: () => this.setState({ flowIdx: (i - 1 + slides.length) % slides.length }),
-      flowNext: () => this.setState({ flowIdx: (i + 1) % slides.length }),
-      catalogCaption: catalogSlides[j].cap,
-      catalogPos: (j + 1) + ' / ' + catalogSlides.length,
-      catalogPrev: () => this.setState({ catalogIdx: (j - 1 + catalogSlides.length) % catalogSlides.length }),
-      catalogNext: () => this.setState({ catalogIdx: (j + 1) % catalogSlides.length }),
-      sliderPos: this.state.sliderPos,
-      sliderDragStart: (e) => {
-        e.preventDefault();
-        const box = document.getElementById('ba-slider');
-        if (!box) return;
-        const move = (ev) => {
-          const p = ev.touches ? ev.touches[0] : ev;
-          const r = box.getBoundingClientRect();
-          let pct = ((p.clientX - r.left) / r.width) * 100;
-          pct = Math.max(0, Math.min(100, pct));
-          this.setState({ sliderPos: pct });
-        };
-        const up = () => {
-          window.removeEventListener('mousemove', move);
-          window.removeEventListener('mouseup', up);
-          window.removeEventListener('touchmove', move);
-          window.removeEventListener('touchend', up);
-        };
-        window.addEventListener('mousemove', move);
-        window.addEventListener('mouseup', up);
-        window.addEventListener('touchmove', move, { passive: false });
-        window.addEventListener('touchend', up);
-      },
-    };
-  }
-  _syncFlowImg() {
-    const img = document.getElementById('flow-carousel-img');
-    if (img) {
-      const srcs = ['./assets/case1-userflow.png', './assets/case1-flow-2.png', './assets/case1-flow-3.png', './assets/case1-flow-4.png'];
-      const want = srcs[this.state.flowIdx];
-      if (!img.getAttribute('src').endsWith(want.slice(1))) img.setAttribute('src', want);
-    }
-    const cimg = document.getElementById('catalog-carousel-img');
-    if (cimg) {
-      const csrcs = ['./assets/case1-catalog-final.png', './assets/case1-search-input.png', './assets/case1-search-results.png', './assets/case1-code-entry.png'];
-      const cwant = csrcs[this.state.catalogIdx];
-      if (!cimg.getAttribute('src').endsWith(cwant.slice(1))) cimg.setAttribute('src', cwant);
-    }
-  }
-  componentDidMount() { this._syncFlowImg(); }
-  componentDidUpdate() { this._syncFlowImg(); }
-}
-</script>
 
   <script>
   (function () {

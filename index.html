@@ -3,11 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -51,7 +47,10 @@
       [data-reveal] { transition: opacity 0.3s ease !important; transform: none !important; }
     }
   </style>
-</helmet>
+
+</head>
+<body>
+
 <div style="min-height:100vh; background:linear-gradient(119deg, rgb(249,250,251) 0%, rgb(238,242,255) 100%); font-family:'JetBrains Mono',monospace; color:rgb(60,60,60)">
 
   <!-- hero -->
@@ -98,7 +97,7 @@
 
     <!-- персонаж с карандашом -->
     <div data-px="0.012" style="position:absolute; left:654px; top:126px; width:368px; height:453px; z-index:5; animation:heroin 0.9s ease-out both">
-      <x-import component-from-global-scope="Vectorized303" from="./components/char/Components.bundle.js" hint-size="368px,453px"></x-import>
+      <div id="char-mount" style="width:100%; height:100%"></div>
     </div>
 
     <!-- подпись «Ника» -->
@@ -255,137 +254,6 @@
   </div>
 </div>
 <div id="case-cursor">Перейти →</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showCats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;настроение&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;настроение&quot;}}">
-class Component extends DCLogic {
-  state = { ekbTime: '', emailCopied: false };
-  copyEmail = () => {
-    const text = 'nicakam788@gmail.com';
-    const markCopied = () => {
-      this.setState({ emailCopied: true });
-      clearTimeout(this._copyTimer);
-      this._copyTimer = setTimeout(() => this.setState({ emailCopied: false }), 1600);
-    };
-    let success = false;
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      success = document.execCommand('copy');
-      document.body.removeChild(ta);
-    } catch (e) {}
-    if (success) {
-      markCopied();
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(markCopied).catch(() => {});
-    }
-  };
-  renderVals() {
-    return {
-      emailLabel: this.state.emailCopied ? 'Скопировано ✓' : 'Почта → nicakam788@gmail.com',
-      copyEmail: this.copyEmail,
-      showCats: this.props.showCats ?? true,
-      ekbTime: this.state.ekbTime,
-    };
-  }
-  _tick() {
-    const t = new Intl.DateTimeFormat('ru-RU', { timeZone: 'Asia/Yekaterinburg', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date());
-    if (t !== this.state.ekbTime) this.setState({ ekbTime: t });
-  }
-  componentDidMount() {
-    this._tick();
-    this._clock = setInterval(() => this._tick(), 1000);
-    this._cursorEl = null;
-    this._onCaseMove = (e) => {
-      if (!this._cursorEl) this._cursorEl = document.getElementById('case-cursor');
-      const el = this._cursorEl;
-      if (!el) return;
-      const hovering = !!e.target.closest('.zoom-cell, .case-cover');
-      el.style.left = e.clientX + 'px';
-      el.style.top = e.clientY + 'px';
-      el.classList.toggle('show', hovering);
-    };
-    document.addEventListener('mousemove', this._onCaseMove);
-    this._onMove = (e) => {
-      if (!(this.props.parallax ?? true)) return;
-      document.querySelectorAll('[data-hero]').forEach((hero) => {
-        const r = hero.getBoundingClientRect();
-        if (r.width === 0) return;
-        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-        hero.querySelectorAll('[data-px]').forEach((el) => {
-          const f = parseFloat(el.getAttribute('data-px')) * 100;
-          el.style.transform = 'translate(' + (-dx * f).toFixed(1) + 'px, ' + (-dy * f).toFixed(1) + 'px)';
-        });
-      });
-    };
-    window.addEventListener('mousemove', this._onMove);
-
-    this._onEyeMove = (e) => {
-      ['site-eye-1', 'site-eye-2'].forEach((id) => {
-        const eye = document.getElementById(id);
-        if (!eye) return;
-        const r = eye.getBoundingClientRect();
-        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        const dx = e.clientX - cx, dy = e.clientY - cy;
-        const dist = Math.min(Math.hypot(dx, dy), 220);
-        const max = 5.5;
-        const scale = dist === 0 ? 0 : (max * Math.min(dist, 220) / 220) / Math.max(Math.hypot(dx, dy), 0.001);
-        eye.style.transform = 'translate(calc(-50% + ' + (dx * scale).toFixed(1) + 'px), calc(-50% + ' + (dy * scale).toFixed(1) + 'px))';
-      });
-    };
-    window.addEventListener('mousemove', this._onEyeMove);
-
-    this._onScroll = () => {
-      const h = document.querySelector('[data-header]');
-      if (!h) return;
-      if (window.scrollY > 24) {
-        h.style.background = 'rgba(255,255,255,0.62)';
-        h.style.borderColor = 'rgba(229,231,235,0.9)';
-        h.style.boxShadow = '0 10px 28px -14px rgba(0,0,0,0.1)';
-        h.style.backdropFilter = 'blur(24px)';
-        h.style.webkitBackdropFilter = 'blur(24px)';
-      } else {
-        h.style.background = 'transparent';
-        h.style.borderColor = 'transparent';
-        h.style.boxShadow = 'none';
-        h.style.backdropFilter = 'none';
-        h.style.webkitBackdropFilter = 'none';
-      }
-    };
-    window.addEventListener('scroll', this._onScroll, { passive: true });
-    this._onScroll();
-
-    this._io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) {
-          en.target.classList.add('on');
-          this._io.unobserve(en.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    this._revealTimer = setInterval(() => {
-      document.querySelectorAll('[data-reveal]:not(.observed)').forEach((el) => {
-        el.classList.add('observed');
-        this._io.observe(el);
-      });
-    }, 400);
-  }
-  componentWillUnmount() {
-    clearInterval(this._clock);
-    window.removeEventListener('mousemove', this._onMove);
-    window.removeEventListener('mousemove', this._onEyeMove);
-    document.removeEventListener('mousemove', this._onCaseMove);
-    window.removeEventListener('scroll', this._onScroll);
-    if (this._io) this._io.disconnect();
-    clearInterval(this._revealTimer);
-  }
-}
-</script>
 
   <script>
   (function () {
@@ -442,5 +310,24 @@ class Component extends DCLogic {
     setInterval(tick, 30000);
   })();
   </script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="./components/char/Components.bundle.js"></script>
+<script>
+  (function () {
+    function mountChar() {
+      var el = document.getElementById('char-mount');
+      if (!el || !window.React || !window.ReactDOM || !window.Vectorized303) return;
+      var root = ReactDOM.createRoot(el);
+      root.render(React.createElement(window.Vectorized303, {}));
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mountChar);
+    } else {
+      mountChar();
+    }
+  })();
+</script>
 </body>
 </html>

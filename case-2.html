@@ -3,11 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -24,7 +20,10 @@
     .contact-menu { opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 30; }
     .contact-dd:hover .contact-menu { opacity: 1; transform: none; pointer-events: auto; }
   </style>
-</helmet>
+
+</head>
+<body>
+
 <div style="min-height:100vh; background:rgb(249,250,251); font-family:'JetBrains Mono',monospace; color:rgb(60,60,60)">
 
   <!-- header -->
@@ -115,43 +114,6 @@
     </div>
   </div>
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  state = { emailCopied: false };
-  copyEmail = () => {
-    const text = 'nicakam788@gmail.com';
-    const markCopied = () => {
-      this.setState({ emailCopied: true });
-      clearTimeout(this._copyTimer);
-      this._copyTimer = setTimeout(() => this.setState({ emailCopied: false }), 1600);
-    };
-    let success = false;
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      success = document.execCommand('copy');
-      document.body.removeChild(ta);
-    } catch (e) {}
-    if (success) {
-      markCopied();
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(markCopied).catch(() => {});
-    }
-  };
-  renderVals() {
-    return {
-      emailLabel: this.state.emailCopied ? 'Скопировано ✓' : 'Почта → nicakam788@gmail.com',
-      copyEmail: this.copyEmail,
-    };
-  }
-}
-</script>
 
   <script>
   (function () {
