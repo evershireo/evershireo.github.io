@@ -34,6 +34,7 @@
     .contact-dd:hover .contact-menu { opacity: 1; transform: none; pointer-events: auto; }
     [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1); }
     [data-reveal].on { opacity: 1; transform: none; }
+    .nav-link.active { color: rgb(41,42,42) !important; background: rgb(238,240,245) !important; }
     [data-header] { transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease; }
     [data-header].scrolled { background: rgba(255,255,255,0.62) !important; border-color: rgba(229,231,235,0.9) !important; box-shadow: 0 10px 28px -14px rgba(0,0,0,0.1) !important; backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important; }
     #case-cursor { transition: opacity 0.15s cubic-bezier(0.23,1,0.32,1), transform 0.15s cubic-bezier(0.23,1,0.32,1) !important; }
@@ -71,8 +72,8 @@
         <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
       </a>
       <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
-        <a href="#cases" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(229,232,240)">Кейсы</a>
-        <a href="#contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Контакты</a>
+        <a href="#cases" class="nav-link" data-nav="cases" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Кейсы</a>
+        <a href="#contact" class="nav-link" data-nav="contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Контакты</a>
         <a href="about.html" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Обо мне</a>
       </div>
       <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
@@ -444,6 +445,39 @@
     document.addEventListener('DOMContentLoaded', initBehaviors);
   } else {
     initBehaviors();
+  }
+})();
+</script>
+
+<script>
+(function () {
+  function initScrollspy() {
+    var casesEl = document.getElementById('cases');
+    var contactEl = document.querySelector('[data-screen-label="контакты"]');
+    var navCases = document.querySelector('.nav-link[data-nav="cases"]');
+    var navContact = document.querySelector('.nav-link[data-nav="contact"]');
+    if (!navCases || !navContact) return;
+    var ticking = false;
+    function apply() {
+      ticking = false;
+      var active = null;
+      var probeY = 120;
+      if (contactEl && contactEl.getBoundingClientRect().top <= probeY) active = 'contact';
+      else if (casesEl && casesEl.getBoundingClientRect().top <= probeY) active = 'cases';
+      navCases.classList.toggle('active', active === 'cases');
+      navContact.classList.toggle('active', active === 'contact');
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(apply);
+    }, { passive: true });
+    apply();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollspy);
+  } else {
+    initScrollspy();
   }
 })();
 </script>
