@@ -86,9 +86,9 @@
               <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
               Телеграм → @evershire
             </a>
-            <a href="mailto:nicakam788@gmail.com" onClick="{{ copyEmail }}" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
+            <a href="mailto:nicakam788@gmail.com" data-copy-email="1" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
               <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="rgb(18,103,233)" stroke-width="1.8"></rect><path d="M 3.5 6 L 12 13 L 20.5 6" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
-              {{ emailLabel }}
+              <span class="email-label">Почта → nicakam788@gmail.com</span>
             </a>
             </div>
           </div>
@@ -146,18 +146,18 @@
             <path pathLength="320" d="M 14 20 C 16 28 15 38 11 47 C 9 53 2 53 4 46 M 15 11 L 15.5 11.5 M 26 27 C 24 34 22 42 27 43.5 C 32 45 36 37 38 28 C 37 36 36.5 43 43 42.5 M 51 43 C 52 36 53.5 29.5 55 27.5 M 55 33.5 C 57.5 29 61.5 26.5 64 27.5 C 67 29 66 37 65 42.5 M 74 28.5 C 72 34 71 40 73 42.5 M 77 20 L 77.5 20.5 M 88 34.5 C 88.5 29.5 94 26.5 97.5 29.5 C 101 33 98.5 41 93 42 C 88.5 42.5 87.5 38 88 34.5 M 107 43 C 108 37 109.5 30.5 110.5 28.5 C 112 32 115 27.5 120 27.5"></path>
           </svg>
         </span>
-        <span style="display:inline-flex; align-items:center; font-size:13px; white-space:nowrap; border:1px solid rgba(60,60,60,0.25); background:rgba(255,255,255,0.6); border-radius:999px; padding:7px 14px">Екатеринбург ·&nbsp;{{ ekbTime }}</span>
+        <span style="display:inline-flex; align-items:center; font-size:13px; white-space:nowrap; border:1px solid rgba(60,60,60,0.25); background:rgba(255,255,255,0.6); border-radius:999px; padding:7px 14px">Екатеринбург ·&nbsp;<span class="ekb-time">—:—</span></span>
       </div>
     </div>
 
     <!-- котики -->
-    <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+    
       <div data-px="0.045" style="position:absolute; left:200px; top:265px; width:100px; height:80px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 11.3% 47% / 333% 419% no-repeat; animation:catfloat 7s ease-in-out infinite"></div></div>
       <div data-px="0.06" style="position:absolute; left:235px; top:500px; width:96px; height:77px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; animation:catfloat2 8s ease-in-out infinite"></div></div>
       <div data-px="0.05" style="position:absolute; left:498px; top:168px; width:100px; height:82px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 86.5% 44% / 333% 406% no-repeat; animation:catfloat 9s ease-in-out infinite"></div></div>
       <div data-px="0.055" style="position:absolute; left:1075px; top:210px; width:102px; height:81px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 9.4% 8.3% / 333% 419% no-repeat; animation:catfloat2 7.5s ease-in-out infinite"></div></div>
       <div data-px="0.04" style="position:absolute; left:1128px; top:415px; width:106px; height:94px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 85.4% 7.1% / 301% 338% no-repeat; animation:catfloat 8.5s ease-in-out infinite"></div></div>
-    </sc-if>
+    
 
     <div style="position:absolute; left:0; right:0; bottom:22px; display:flex; justify-content:center; font-size:13px; color:rgb(141,141,144)">↓ Листайте</div>
   </div>
@@ -166,9 +166,9 @@
   <div id="cases" data-screen-label="кейсы" data-reveal style="max-width:1440px; margin:0 auto; padding:130px 160px 110px; box-sizing:border-box">
     <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:440px; gap:24px">
       <div class="cover-wrap" style="grid-column:span 2; position:relative">
-      <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+      
         <img src="./assets/cat-hang.png" alt="" class="cat-hang" style="position:absolute; right:110px; top:-49px; width:180px; pointer-events:none; z-index:2">
-      </sc-if>
+      
       <a href="case-1.html" class="case-cover zoom-cell" style="position:relative; display:block; height:100%; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); color:inherit; box-sizing:border-box">
         <!-- подпись слева -->
         <div style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
@@ -209,9 +209,9 @@
       <a href="case-2.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
         <img src="./uploads/cover-case2-detail-2.png" alt="Кейс: чат поддержки и обращения клиентов" class="zoom-img" style="width:82%; border-radius:12px; filter:drop-shadow(0 20px 32px rgba(150,90,20,0.22)); transition:transform 0.3s ease">
       </a>
-      <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+      
         <div style="position:absolute; left:-108px; bottom:-38px; width:90px; height:72px; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; transform:rotate(-8deg); pointer-events:none; z-index:2"></div>
-      </sc-if>
+      
       <svg viewBox="0 0 60 60" style="position:absolute; right:-52px; bottom:200px; width:46px; height:46px; pointer-events:none; z-index:2" fill="none"><path d="M 30 4 L 33 22 L 51 25 L 33 28 L 30 46 L 27 28 L 9 25 L 27 22 Z" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linejoin="round"></path></svg>
       <svg viewBox="0 0 120 20" style="position:absolute; left:60px; bottom:-34px; width:110px; height:18px; pointer-events:none; z-index:2" fill="none"><path d="M 4 12 C 24 6 44 16 64 9 C 84 3 100 13 116 8" stroke="rgb(18,103,233)" stroke-width="3" stroke-linecap="round"></path></svg>
     </div>
@@ -248,7 +248,7 @@
       </div>
       <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
         <span>Ника Каменецкая · продуктовый дизайнер</span>
-        <span>Екатеринбург —— {{ ekbTime }}</span>
+        <span>Екатеринбург —— <span class="ekb-time">—:—</span></span>
         <span>© 2026</span>
       </div>
     </div>
@@ -386,5 +386,61 @@ class Component extends DCLogic {
   }
 }
 </script>
+
+  <script>
+  (function () {
+    function initCopyEmail() {
+      document.querySelectorAll('[data-copy-email]').forEach(function (el) {
+        var labelEl = el.querySelector('.email-label');
+        if (!labelEl) return;
+        var original = labelEl.textContent;
+        el.addEventListener('click', function (e) {
+          var text = 'nicakam788@gmail.com';
+          var restore = function () { labelEl.textContent = original; };
+          var mark = function () { labelEl.textContent = 'Скопировано ✓'; setTimeout(restore, 1600); };
+          var fallback = function () {
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.focus();
+              ta.select();
+              var ok = document.execCommand('copy');
+              document.body.removeChild(ta);
+              if (ok) mark();
+            } catch (err) {}
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(mark).catch(fallback);
+          } else {
+            fallback();
+          }
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCopyEmail);
+    } else {
+      initCopyEmail();
+    }
+  })();
+  </script>
+
+  <script>
+  (function () {
+    function tick() {
+      var els = document.querySelectorAll('.ekb-time');
+      if (!els.length) return;
+      var now = new Date();
+      var fmt = new Intl.DateTimeFormat('ru-RU', { timeZone: 'Asia/Yekaterinburg', hour: '2-digit', minute: '2-digit' });
+      var text = fmt.format(now);
+      els.forEach(function (el) { el.textContent = text; });
+    }
+    tick();
+    setInterval(tick, 30000);
+  })();
+  </script>
 </body>
 </html>

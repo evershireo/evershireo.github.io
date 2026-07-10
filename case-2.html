@@ -57,9 +57,9 @@
               <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
               Телеграм → @evershire
             </a>
-            <a href="mailto:nicakam788@gmail.com" onClick="{{ copyEmail }}" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
+            <a href="mailto:nicakam788@gmail.com" data-copy-email="1" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
               <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="rgb(18,103,233)" stroke-width="1.8"></rect><path d="M 3.5 6 L 12 13 L 20.5 6" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
-              {{ emailLabel }}
+              <span class="email-label">Почта → nicakam788@gmail.com</span>
             </a>
           </div>
         </div>
@@ -152,5 +152,46 @@ class Component extends DCLogic {
   }
 }
 </script>
+
+  <script>
+  (function () {
+    function initCopyEmail() {
+      document.querySelectorAll('[data-copy-email]').forEach(function (el) {
+        var labelEl = el.querySelector('.email-label');
+        if (!labelEl) return;
+        var original = labelEl.textContent;
+        el.addEventListener('click', function (e) {
+          var text = 'nicakam788@gmail.com';
+          var restore = function () { labelEl.textContent = original; };
+          var mark = function () { labelEl.textContent = 'Скопировано ✓'; setTimeout(restore, 1600); };
+          var fallback = function () {
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.focus();
+              ta.select();
+              var ok = document.execCommand('copy');
+              document.body.removeChild(ta);
+              if (ok) mark();
+            } catch (err) {}
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(mark).catch(fallback);
+          } else {
+            fallback();
+          }
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCopyEmail);
+    } else {
+      initCopyEmail();
+    }
+  })();
+  </script>
 </body>
 </html>
