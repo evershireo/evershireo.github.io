@@ -11,276 +11,256 @@
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./components/case1/fig-tokens.css">
+  <link rel="stylesheet" href="./components/case1/fig-assets.css">
   <style>
     html { scroll-behavior: smooth; }
     body { margin: 0; background: rgb(249,250,251); }
     a { color: rgb(18,103,233); text-decoration: none; }
     a:hover { color: rgb(29,78,216); }
     @keyframes catfloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+    @keyframes catfloat2 { 0%,100% { transform: translateY(-6px) rotate(1.5deg); } 50% { transform: translateY(6px) rotate(-1.5deg); } }
     @keyframes heroin { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+    .jr-sign { opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
+    .jr-sign path { stroke-dasharray: 320; stroke-dashoffset: 320; }
+    [data-jr]:hover .jr-sign { opacity: 1; }
+    [data-jr]:hover .jr-sign path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.9s ease 0.1s; }
     .cat-sign { opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
     .cat-sign path { stroke-dasharray: 200; stroke-dashoffset: 200; }
     [data-cat]:hover .cat-sign { opacity: 1; }
     [data-cat]:hover .cat-sign path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.7s ease 0.05s; }
-    .photo-anno { opacity: 0; transition: opacity 0.2s ease; }
-    .photo-anno svg path { stroke-dasharray: 140; stroke-dashoffset: 140; }
-    .photo-hover:hover .photo-anno { opacity: 1; }
-    .photo-hover:hover .photo-anno svg path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.6s ease 0.05s; }
-    .contact-menu { opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 30; }
+    .zoom-cell:hover .zoom-img { transform: scale(1.12); }
+    .zoom-cell, .case-cover { cursor: none; }
+    #case-cursor { position: fixed; left: 0; top: 0; z-index: 500; transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease; background: rgb(41,42,42); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; border-radius: 999px; padding: 12px 22px; white-space: nowrap; box-shadow: 0 12px 30px -8px rgba(0,0,0,0.35); }
+    #case-cursor.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .cat-hang { transition: transform 0.25s cubic-bezier(0.23,1,0.32,1); }
+    .contact-menu { opacity: 0; transform: translateY(-6px) scale(0.96); transform-origin: top right; pointer-events: none; transition: opacity 0.16s cubic-bezier(0.23,1,0.32,1), transform 0.16s cubic-bezier(0.23,1,0.32,1); z-index: 30; }
     .contact-dd:hover .contact-menu { opacity: 1; transform: none; pointer-events: auto; }
-    .qtip-box { opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; }
-    .qtip:hover .qtip-box { opacity: 1; transform: none; pointer-events: auto; }
-
+    [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1); }
+    [data-reveal].on { opacity: 1; transform: none; }
+    #case-cursor { transition: opacity 0.15s cubic-bezier(0.23,1,0.32,1), transform 0.15s cubic-bezier(0.23,1,0.32,1) !important; }
+    @media (hover: none) or (pointer: coarse) {
+      .zoom-cell:hover .zoom-img, .cat-hang:hover, [data-jr]:hover .jr-sign, [data-cat]:hover .cat-sign { transform: none !important; opacity: inherit; }
+      .zoom-cell .zoom-img { transition: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      [data-px] { transform: none !important; }
+      .zoom-cell .zoom-img, .cat-hang, [data-jr] .jr-sign, [data-cat] .cat-sign, #case-cursor { transition-duration: 0.01ms !important; }
+      [style*="animation:heroin"], [style*="animation: heroin"] { animation: none !important; opacity: 1 !important; transform: none !important; }
+      [style*="catfloat"] { animation: none !important; }
+      [data-reveal] { transition: opacity 0.3s ease !important; transform: none !important; }
+    }
   </style>
 </helmet>
-<div style="min-height:100vh; display:flex; flex-direction:column; background:linear-gradient(119deg, rgb(249,250,251) 0%, rgb(238,242,255) 100%); font-family:'JetBrains Mono',monospace; color:rgb(60,60,60)">
+<div style="min-height:100vh; background:linear-gradient(119deg, rgb(249,250,251) 0%, rgb(238,242,255) 100%); font-family:'JetBrains Mono',monospace; color:rgb(60,60,60)">
 
-  <!-- header -->
-  <div data-header="1" style="position:fixed; left:50%; top:14px; transform:translateX(-50%); width:820px; max-width:calc(100vw - 32px); height:60px; border-radius:30px; background:transparent; border:1px solid transparent; box-shadow:none; transition:background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; display:grid; grid-template-columns:1fr auto 1fr; padding:0 10px 0 12px; align-items:center; box-sizing:border-box; z-index:100">
-    <a href="index.html" data-cat="1" style="display:flex; flex-direction:row; gap:11px; align-items:center; justify-self:start; color:rgb(41,42,42)">
-      <div style="position:relative; width:38px; height:38px; border-radius:12px; flex-shrink:0">
-        <div style="width:38px; height:38px; border-radius:12px; overflow:hidden">
-          <image-slot id="avatar" shape="rounded" radius="12" placeholder="Фото"></image-slot>
+  <!-- hero -->
+  <div data-hero="1" data-screen-label="хиро" style="position:relative; max-width:1440px; margin:0 auto; height:807px; overflow:hidden">
+    <!-- header -->
+    <div data-header="1" style="position:fixed; left:50%; top:14px; transform:translateX(-50%); width:820px; max-width:calc(100vw - 32px); height:60px; border-radius:30px; background:transparent; border:1px solid transparent; box-shadow:none; transition:background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; display:grid; grid-template-columns:1fr auto 1fr; padding:0 10px 0 12px; align-items:center; box-sizing:border-box; z-index:100">
+      <a href="#top" data-cat="1" style="display:flex; flex-direction:row; gap:11px; align-items:center; justify-self:start; color:rgb(41,42,42)">
+        <div style="position:relative; width:38px; height:38px; border-radius:12px; flex-shrink:0">
+          <div style="width:38px; height:38px; border-radius:12px; overflow:hidden">
+            <image-slot id="avatar" shape="rounded" radius="12" placeholder="Фото"></image-slot>
+          </div>
+          <svg class="cat-sign" viewBox="0 0 70 70" style="position:absolute; left:-9px; top:-13px; width:62px; height:62px" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path pathLength="200" d="M 14 22 C 13.5 17 14 10 16 5.5 C 19.5 8 22.5 11 24 14.5 M 38 14.5 C 39.5 11 42.5 8 46 5.5 C 48 10 48.5 17 48 22 M 53 43 C 60 44.5 66 41 65.5 35.5 C 65 31 60 30 58 33 C 56.5 35.5 59 38.5 62.5 38"></path>
+          </svg>
         </div>
-        <svg class="cat-sign" viewBox="0 0 70 70" style="position:absolute; left:-9px; top:-13px; width:62px; height:62px" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path pathLength="200" d="M 14 22 C 13.5 17 14 10 16 5.5 C 19.5 8 22.5 11 24 14.5 M 38 14.5 C 39.5 11 42.5 8 46 5.5 C 48 10 48.5 17 48 22 M 53 43 C 60 44.5 66 41 65.5 35.5 C 65 31 60 30 58 33 C 56.5 35.5 59 38.5 62.5 38"></path>
-        </svg>
+        <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
+      </a>
+      <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
+        <a href="#cases" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(229,232,240)">Кейсы</a>
+        <a href="#contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Контакты</a>
+        <a href="about.html" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Обо мне</a>
       </div>
-      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
-    </a>
-    <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
-      <a href="index.html#cases" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Кейсы</a>
-      <a href="index.html#contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(238,240,245); color:rgb(41,42,42)">Контакты</a>
-      <a href="#" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap" style-hover="background:rgb(229,232,240)">Обо мне</a>
-    </div>
-    <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
-      <a href="./assets/Резюме — Ника Каменецкая.pdf" download="Резюме — Ника Каменецкая.pdf" title="скачать резюме" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgba(60,60,60,0.07); color:rgb(60,60,60); font-size:14px; font-weight:700; transition:transform 0.2s ease" style-hover="background:rgb(229,232,240); color:rgb(41,42,42); transform:scale(1.08)">CV</a>
-      <div class="contact-dd" style="position:relative">
-        <a href="https://t.me/evershire" title="написать в телеграм" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgb(18,103,233); transition:transform 0.2s ease" style-hover="background:rgb(29,78,216); transform:scale(1.08)">
-          <svg viewBox="0 0 24 24" style="width:17px; height:17px" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="#fff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
-        </a>
-        <div class="contact-menu" style="position:absolute; top:40px; right:0; padding-top:10px; box-sizing:border-box">
-          <div style="display:flex; flex-direction:column; gap:2px; background:#fff; border-radius:16px; padding:6px; box-shadow:0 16px 40px -12px rgba(20,30,60,0.25); box-sizing:border-box; min-width:200px">
-          <a href="https://t.me/evershire" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap" style-hover="background:rgb(238,240,245)">
-            <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
-            Телеграм → @evershire
+      <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
+        <a href="./assets/resume.pdf" download="Nika-Kamenetskaya-CV.pdf" title="скачать резюме" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgba(60,60,60,0.07); color:rgb(60,60,60); font-size:14px; font-weight:700; transition:transform 0.2s ease" style-hover="background:rgb(229,232,240); color:rgb(41,42,42); transform:scale(1.08)">CV</a>
+        <div class="contact-dd" style="position:relative">
+          <a href="https://t.me/evershire" title="написать в телеграм" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgb(18,103,233); transition:transform 0.2s ease" style-hover="background:rgb(29,78,216); transform:scale(1.08)">
+            <svg viewBox="0 0 24 24" style="width:17px; height:17px" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="#fff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
           </a>
-          <a href="mailto:nicakam788@gmail.com" onClick="{{ copyEmail }}" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
-            <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="rgb(18,103,233)" stroke-width="1.8"></rect><path d="M 3.5 6 L 12 13 L 20.5 6" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
-            {{ emailLabel }}
-          </a>
+          <div class="contact-menu" style="position:absolute; top:40px; right:0; padding-top:10px; box-sizing:border-box">
+            <div style="display:flex; flex-direction:column; gap:2px; background:#fff; border-radius:16px; padding:6px; box-shadow:0 16px 40px -12px rgba(20,30,60,0.25); box-sizing:border-box; min-width:200px">
+            <a href="https://t.me/evershire" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap" style-hover="background:rgb(238,240,245)">
+              <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><path d="M21 4 L2.5 11.5 L9 14 M21 4 L15 20 L9 14 M21 4 L9 14" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+              Телеграм → @evershire
+            </a>
+            <a href="mailto:nicakam788@gmail.com" onClick="{{ copyEmail }}" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:11px; font-size:14px; color:rgb(41,42,42); white-space:nowrap; cursor:pointer" style-hover="background:rgb(238,240,245)">
+              <svg viewBox="0 0 24 24" style="width:17px; height:17px; flex-shrink:0" fill="none"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="rgb(18,103,233)" stroke-width="1.8"></rect><path d="M 3.5 6 L 12 13 L 20.5 6" stroke="rgb(18,103,233)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+              {{ emailLabel }}
+            </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- обо мне -->
-  <div data-screen-label="обо мне" style="flex:1; max-width:1440px; width:100%; margin:0 auto; padding:170px 160px 130px; box-sizing:border-box; animation:heroin 0.9s ease-out both">
-    <div style="display:flex; gap:80px; align-items:flex-start">
-      <div class="photo-hover" style="position:relative; flex-shrink:0">
-        <div style="width:340px; height:400px; transform:rotate(-2deg); position:relative">
-          <image-slot id="photo" shape="rounded" radius="24" placeholder="Сюда фото — перетащите файл"></image-slot>
-        </div>
-        <div class="photo-anno" style="position:absolute; left:-142px; top:26px; width:142px; display:flex; flex-direction:column; align-items:flex-end; gap:2px; z-index:4; pointer-events:none">
-          <span style="font-family:Caveat,cursive; font-weight:700; font-size:26px; color:rgb(18,103,233); transform:rotate(-4deg)">Это горы</span>
-          <svg viewBox="0 0 90 40" style="width:76px; height:34px" fill="none"><path d="M 4 4 C 24 12 48 20 82 30 M 82 30 L 66 27 M 82 30 L 76 15" stroke="rgb(18,103,233)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        </div>
-        <div class="photo-anno" style="position:absolute; left:80px; bottom:-98px; width:230px; display:flex; flex-direction:column; align-items:flex-start; gap:2px; z-index:4; pointer-events:none">
-          <svg viewBox="0 0 40 60" style="width:32px; height:48px; margin-left:14px" fill="none"><path d="M 20 56 C 16 40 14 22 12 4 M 12 4 L 8 17 M 12 4 L 20 12" stroke="rgb(18,103,233)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <span style="font-family:Caveat,cursive; font-weight:700; font-size:26px; line-height:1.15; color:rgb(18,103,233); transform:rotate(-3deg)">это я счастливая в горах :)</span>
-        </div>
-        <div style="position:absolute; left:16px; bottom:20px; display:flex; flex-direction:row; gap:8px; z-index:3; transform:rotate(-2deg)">
-          <span style="font-size:13px; color:rgb(41,42,42); background:rgba(255,255,255,0.85); backdrop-filter:blur(6px); border-radius:999px; padding:6px 14px">25 лет</span>
-          <span style="font-size:13px; color:rgb(41,42,42); background:rgba(255,255,255,0.85); backdrop-filter:blur(6px); border-radius:999px; padding:6px 14px">catlover</span>
-        </div>
-        <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
-          <div style="position:absolute; left:-104px; bottom:-6px; width:92px; height:74px; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; transform:rotate(-6deg)"></div>
-        </sc-if>
+    <!-- персонаж с карандашом -->
+    <div data-px="0.012" style="position:absolute; left:654px; top:126px; width:368px; height:453px; z-index:5; animation:heroin 0.9s ease-out both">
+      <x-import component-from-global-scope="Vectorized303" from="./components/char/Components.bundle.js" hint-size="368px,453px"></x-import>
+    </div>
+
+    <!-- подпись «Ника» -->
+    <div style="position:absolute; left:359px; top:252px; width:237px; height:206px; transform:rotate(-1.83deg); transform-origin:0 0; z-index:6; animation:heroin 0.9s ease-out 0.15s both">
+      <img src="./assets/sig/Vector-4.svg" alt="" style="position:absolute; left:29.4px; top:36px; width:53.2px; height:133.7px">
+      <img src="./assets/sig/Vector-5.svg" alt="" style="position:absolute; left:14.7px; top:47.1px; width:23.8px; height:131.2px">
+      <img src="./assets/sig/Vector-6.svg" alt="" style="position:absolute; left:165.9px; top:119.7px; width:59.9px; height:47px">
+      <img src="./assets/sig/Vector-7.svg" alt="" style="position:absolute; left:145.7px; top:114.2px; width:42.7px; height:55.3px">
+      <img src="./assets/sig/Vector-8.svg" alt="" style="position:absolute; left:145.7px; top:114.2px; width:20.2px; height:22.3px">
+      <img src="./assets/sig/Vector-9.svg" alt="" style="position:absolute; left:88.6px; top:135.8px; width:20px; height:24.5px">
+      <img src="./assets/sig/Vector-10.svg" alt="" style="position:absolute; left:185.7px; top:159.1px; width:27px; height:14.8px">
+      <img src="./assets/sig/Vector-11.svg" alt="" style="position:absolute; left:113.6px; top:127px; width:9.7px; height:34.4px">
+      <svg viewBox="0 0 12.334 26.453" style="position:absolute; left:119.7px; top:117.2px; width:12.3px; height:26.5px" fill="rgb(82,81,82)"><path d="M 0 24.545 C 2.111 19.428 4.143 14.279 6.095 9.1 C 7.068 6.551 7.972 3.987 9.087 1.498 C 10.253 -1.104 13.074 0.01 12.152 2.353 C 11.484 4.048 10.7 5.776 10.027 7.503 L 4.545 21.612 C 4.199 22.508 2.891 25.741 2.816 26.453 C 2.329 25.875 0.728 25.703 0.122 24.706 L 0 24.545 Z"></path></svg>
+      <svg viewBox="0 0 25.757 17.581" style="position:absolute; left:120.7px; top:143.7px; width:25.8px; height:17.6px" fill="rgb(82,81,82)"><path d="M 1.743 0 L 16.393 8.898 C 19.13 10.544 21.965 12.139 24.598 13.934 C 27.01 15.579 25.175 16.791 23.448 17.581 C 22.057 17.019 19.831 15.57 18.463 14.736 L 10.305 9.751 L 3.723 5.772 C 2.906 5.278 1.049 4.222 0.352 3.677 L 0.286 3.492 L 0 3.461 C 0.136 2.573 1.245 0.883 1.743 0 Z"></path></svg>
+      <svg viewBox="0 0 5.817 12.753" style="position:absolute; left:142.8px; top:135.5px; width:5.8px; height:12.8px" fill="rgb(82,81,82)"><path d="M 5.817 1.006 C 5.099 3.634 4.384 6.262 3.629 8.879 C 3.219 10.298 2.268 13.114 0.354 12.715 C -1.062 11.327 2.185 2.111 2.847 0 C 4.235 0.643 4.225 0.85 5.817 1.006 Z"></path></svg>
+      <svg viewBox="0 0 10.334 22.294" style="position:absolute; left:145.7px; top:114.2px; width:10.3px; height:22.3px" fill="rgb(82,81,82)"><path d="M 6.49 0.899 C 8.311 -1.314 9.468 1.066 10.334 2.597 C 9.803 2.539 9.354 2.416 8.838 2.291 C 8.677 2.758 7.957 5.038 7.806 5.354 C 7.368 7.061 3.937 18.451 4.107 19.082 L 3.811 19.195 C 3.636 19.891 3.072 21.668 3.012 22.204 L 2.97 22.294 C 1.378 22.138 1.388 21.931 0 21.288 L 0.428 19.729 C 0.571 19.285 0.765 18.48 0.917 18.102 C 2.535 14.072 4.025 3.869 6.49 0.899 Z"></path></svg>
+      <svg viewBox="0 0 17.178 4.617" style="position:absolute; left:148.7px; top:131.8px; width:17.2px; height:4.6px" fill="rgb(68,67,68)"><path d="M 12.821 0.186 C 13.91 0.195 14.349 0.186 15.416 0 C 18.462 1.19 17.128 2.726 14.668 3.12 C 12.42 2.846 2.428 4.109 0 4.617 C 0.06 4.08 0.624 2.304 0.799 1.608 L 1.095 1.495 C 2.859 0.842 10.468 0.359 12.821 0.186 Z"></path></svg>
+      <svg viewBox="0 0 3.811 3.129" style="position:absolute; left:145.7px; top:133.3px; width:3.8px; height:3.1px" fill="rgb(68,67,68)"><path d="M 0.428 0.564 L 1.005 0.632 L 1.168 0.564 C 2.431 0.046 2.371 -0.062 3.811 0.03 C 3.636 0.726 3.072 2.502 3.012 3.039 L 2.97 3.129 C 1.378 2.973 1.388 2.766 0 2.123 L 0.428 0.564 Z"></path></svg>
+      <svg viewBox="0 0 3.843 2.597" style="position:absolute; left:152.1px; top:114.2px; width:3.8px; height:2.6px" fill="rgb(131,130,129)"><path d="M 0 0.899 C 1.821 -1.314 2.978 1.066 3.843 2.597 C 3.313 2.539 2.863 2.416 2.348 2.291 C 2.28 2.108 2.192 1.933 2.085 1.77 C 1.643 1.091 0.811 1.057 0 0.899 Z"></path></svg>
+      <svg viewBox="0 0 12.247 17.268" style="position:absolute; left:169.3px; top:129.4px; width:12.2px; height:17.3px" fill="rgb(254,254,253)"><path d="M 4.379 0 C 5.674 1.453 7.896 3.349 9.383 4.876 L 9.414 5.243 C 10.297 5.885 11.377 5.827 12.247 6.204 C 10.323 9.922 8.342 13.611 6.303 17.268 L 6.203 17.265 C 5.761 16.526 5.004 15.038 4.375 14.579 L 4.412 14.439 C 2.997 12.544 1.324 9.825 0 7.79 C 1.502 5.217 2.962 2.62 4.379 0 Z"></path></svg>
+      <svg viewBox="0 0 7.872 12.025" style="position:absolute; left:173.7px; top:134.7px; width:7.9px; height:12px" fill="rgb(82,81,82)"><path d="M 0.036 9.196 C 1.658 6.718 3.4 2.303 5.039 0 C 5.922 0.642 7.001 0.584 7.872 0.961 C 5.948 4.679 3.966 8.368 1.928 12.025 L 1.828 12.022 C 1.385 11.283 0.629 9.795 0 9.336 L 0.036 9.196 Z"></path></svg>
+      <svg viewBox="0 0 4.358 4.782" style="position:absolute; left:178.7px; top:130.8px; width:4.4px; height:4.8px" fill="rgb(68,67,68)"><path d="M 0 3.455 C 0.637 2.774 1.74 0.457 2.152 0 C 2.95 0.657 3.522 1.4 4.358 2.016 C 3.864 3.013 3.469 3.841 2.864 4.782 C 1.993 4.405 0.914 4.463 0.031 3.821 L 0 3.455 Z"></path></svg>
+      <svg viewBox="0 0 1.979 3.949" style="position:absolute; left:187px; top:119.8px; width:2px; height:3.9px" fill="rgb(68,67,68)"><path d="M 1.825 0 L 1.979 0.05 C 1.607 0.876 2.297 3.546 0.528 3.949 L 0.2 3.681 C -0.405 2.226 0.429 0.528 1.825 0 Z"></path></svg>
+      <svg viewBox="0 0 3.323 4.173" style="position:absolute; left:172.2px; top:144px; width:3.3px; height:4.2px" fill="rgb(68,67,68)"><path d="M 1.495 0 C 2.124 0.459 2.88 1.947 3.323 2.686 C 3.179 3.008 2.578 3.755 2.291 3.931 C 1.02 4.707 0.444 3.433 0 2.646 C 0.511 1.646 0.911 0.949 1.495 0 Z"></path></svg>
+      <svg viewBox="0 0 2.541 3.157" style="position:absolute; left:199px; top:168.5px; width:2.5px; height:3.2px" fill="rgb(68,67,68)"><path d="M 0.796 3.157 C 0.509 2.72 -0.031 2.045 0.001 1.527 C 0.067 0.525 0.799 -0.018 1.744 0 C 2.397 0.297 2.192 0.107 2.541 0.701 C 2.537 1.86 1.983 2 1.668 3.137 L 0.796 3.157 Z"></path></svg>
+      <svg viewBox="0 0 4.303 5.208" style="position:absolute; left:118.2px; top:141.9px; width:4.3px; height:5.2px" fill="rgb(58,55,56)"><path d="M 1.61 0 C 2.216 0.996 3.816 1.169 4.303 1.747 C 3.804 2.63 2.695 4.32 2.559 5.208 C -1.119 3.885 -0.27 2.548 1.61 0 Z"></path></svg>
+      <svg viewBox="0 0 3.418 3.427" style="position:absolute; left:119.8px; top:158px; width:3.4px; height:3.4px" fill="rgb(131,130,129)"><path d="M 3.126 0 C 3.219 0.57 3.364 1.331 3.418 1.888 C 2.699 2.589 2.054 3.388 1.036 3.427 C 0.477 3.213 0.328 3.135 0 2.471 C 2.265 2.608 2.002 1.75 3.126 0 Z"></path></svg>
+      <svg viewBox="0 0 3.258 2.913" style="position:absolute; left:88.6px; top:136.9px; width:3.3px; height:2.9px" fill="rgb(102,101,102)"><path d="M 0.006 2.913 C -0.133 0.9 2.042 -1.135 3.258 0.744 C 2.531 0.876 0.235 2.145 0.006 2.913 Z"></path></svg>
+      <svg viewBox="0 0 2.565 1.155" style="position:absolute; left:101.9px; top:135.8px; width:2.6px; height:1.2px" fill="rgb(102,101,102)"><path d="M 0 0.667 C 0.831 -0.055 1.752 -0.361 2.565 0.633 C 1.399 1.321 1.18 1.326 0 0.667 Z"></path></svg>
+      <svg viewBox="0 0 3.584 2.307" style="position:absolute; left:79px; top:167.5px; width:3.6px; height:2.3px" fill="rgb(102,101,102)"><path d="M 0 0.013 C 1.838 -0.105 1.315 0.648 3.584 0.114 C 2.722 2.54 0.524 3.536 0 0.013 Z"></path></svg>
+      <svg viewBox="0 0 2.408 2.901" style="position:absolute; left:69.5px; top:110.3px; width:2.4px; height:2.9px" fill="rgb(68,67,68)"><path d="M 0 0 L 0.968 0.022 C 1.566 0.034 1.666 0.073 2.2 0.354 C 2.698 1.181 2.212 1.61 1.688 2.335 C 1.209 2.795 1.346 2.808 0.804 2.901 C 0.293 2.345 0.194 0.852 0 0 Z"></path></svg>
+      <svg viewBox="0 0 3.443 1.999" style="position:absolute; left:57.9px; top:36px; width:3.4px; height:2px" fill="rgb(131,130,129)"><path d="M 0 1.984 C 0.76 0.24 2.491 -1.142 3.443 1.377 C 2.13 1.537 1.017 2.097 0 1.984 Z"></path></svg>
+      <svg viewBox="0 0 3.395 1.788" style="position:absolute; left:14.7px; top:47.1px; width:3.4px; height:1.8px" fill="rgb(102,101,102)"><path d="M 0 1.784 C 0.43 0.552 1.478 -0.378 2.82 0.152 C 3.378 0.76 3.216 0.549 3.395 1.422 C 2.51 1.463 0.351 1.831 0 1.784 Z"></path></svg>
+    </div>
+
+    <!-- заголовок -->
+    <div style="position:absolute; left:427px; top:410px; width:543px; display:flex; flex-direction:column; gap:9px; z-index:30; animation:heroin 0.9s ease-out 0.05s both">
+      <div style="position:relative; margin-top:30px">
+        <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:106px; line-height:0.88; color:rgb(18,103,233); display:block">ПОРТ <span style="white-space:nowrap">Ф<span style="position:relative; display:inline-block">О<span id="site-eye-1" style="position:absolute; left:50%; top:53%; transform:translate(-50%,-50%); width:33px; height:32px; border-radius:50%; background:rgb(60,60,60)"></span></span>ЛИ<span style="position:relative; display:inline-block">О<span id="site-eye-2" style="position:absolute; left:50%; top:53%; transform:translate(-50%,-50%); width:33px; height:32px; border-radius:50%; background:rgb(60,60,60)"></span></span></span></span>
       </div>
-      <div style="display:flex; flex-direction:column; gap:28px; padding-top:12px">
-        <span style="font-size:15px; color:rgb(18,103,233)">// Обо мне</span>
-        <h1 style="margin:0; font-family:Unbounded,sans-serif; font-weight:600; font-size:44px; line-height:1.05; color:rgb(41,42,42)">Привет, я Ника <span style="color:rgb(18,103,233)">→</span> проектирую интерфейсы и рисую котиков</h1>
-        <p style="margin:0; font-size:17px; line-height:1.65; color:rgb(85,85,87); max-width:560px; text-wrap:pretty">Junior продуктовый дизайнер с опытом в 1 год. Запускала внутри компании продукты, начинавшиеся как pet-проект чисто для себя, впоследствии вышедшие на внутренний рынок госкорпорации, суммарная капитализация которых составила <span style="color:rgb(18,103,233); font-weight:600">115 млн руб.</span></p>
+      <div style="display:flex; flex-direction:row; gap:8px; align-items:center; margin-top:14px; flex-wrap:nowrap; width:max-content">
+        <span data-jr="1" style="position:relative; display:inline-flex; align-items:center; font-size:13px; white-space:nowrap; border:1px solid rgba(60,60,60,0.25); background:rgba(255,255,255,0.6); border-radius:999px; padding:7px 14px">
+          Продуктовый дизайнер
+          <svg class="jr-sign" viewBox="0 0 140 60" style="position:absolute; right:-40px; bottom:-54px; width:120px; height:52px; transform:rotate(-5deg)" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path pathLength="320" d="M 14 20 C 16 28 15 38 11 47 C 9 53 2 53 4 46 M 15 11 L 15.5 11.5 M 26 27 C 24 34 22 42 27 43.5 C 32 45 36 37 38 28 C 37 36 36.5 43 43 42.5 M 51 43 C 52 36 53.5 29.5 55 27.5 M 55 33.5 C 57.5 29 61.5 26.5 64 27.5 C 67 29 66 37 65 42.5 M 74 28.5 C 72 34 71 40 73 42.5 M 77 20 L 77.5 20.5 M 88 34.5 C 88.5 29.5 94 26.5 97.5 29.5 C 101 33 98.5 41 93 42 C 88.5 42.5 87.5 38 88 34.5 M 107 43 C 108 37 109.5 30.5 110.5 28.5 C 112 32 115 27.5 120 27.5"></path>
+          </svg>
+        </span>
+        <span style="display:inline-flex; align-items:center; font-size:13px; white-space:nowrap; border:1px solid rgba(60,60,60,0.25); background:rgba(255,255,255,0.6); border-radius:999px; padding:7px 14px">Екатеринбург ·&nbsp;{{ ekbTime }}</span>
       </div>
     </div>
+
+    <!-- котики -->
+    <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+      <div data-px="0.045" style="position:absolute; left:200px; top:265px; width:100px; height:80px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 11.3% 47% / 333% 419% no-repeat; animation:catfloat 7s ease-in-out infinite"></div></div>
+      <div data-px="0.06" style="position:absolute; left:235px; top:500px; width:96px; height:77px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; animation:catfloat2 8s ease-in-out infinite"></div></div>
+      <div data-px="0.05" style="position:absolute; left:498px; top:168px; width:100px; height:82px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 86.5% 44% / 333% 406% no-repeat; animation:catfloat 9s ease-in-out infinite"></div></div>
+      <div data-px="0.055" style="position:absolute; left:1075px; top:210px; width:102px; height:81px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 9.4% 8.3% / 333% 419% no-repeat; animation:catfloat2 7.5s ease-in-out infinite"></div></div>
+      <div data-px="0.04" style="position:absolute; left:1128px; top:415px; width:106px; height:94px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 85.4% 7.1% / 301% 338% no-repeat; animation:catfloat 8.5s ease-in-out infinite"></div></div>
+    </sc-if>
+
+    <div style="position:absolute; left:0; right:0; bottom:22px; display:flex; justify-content:center; font-size:13px; color:rgb(141,141,144)">↓ Листайте</div>
   </div>
 
-  <!-- опыт -->
-  <div data-screen-label="опыт" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
-    <span style="font-size:15px; color:rgb(18,103,233)">// Опыт</span>
-    <div style="display:flex; flex-direction:column; margin-top:26px; max-width:760px">
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
-        <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">Сент. 2025 — Наст. время</div>
-        <div style="display:flex; flex-direction:column; gap:10px">
-          <div style="display:flex; flex-direction:row; gap:10px; align-items:baseline; flex-wrap:wrap">
-            <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">Росатом</span>
-            <span style="font-size:14px; color:rgb(18,103,233)">Junior UX/UI дизайнер</span>
+  <!-- кейсы -->
+  <div id="cases" data-screen-label="кейсы" data-reveal style="max-width:1440px; margin:0 auto; padding:130px 160px 110px; box-sizing:border-box">
+    <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:440px; gap:24px">
+      <div class="cover-wrap" style="grid-column:span 2; position:relative">
+      <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+        <img src="./assets/cat-hang.png" alt="" class="cat-hang" style="position:absolute; right:110px; top:-49px; width:180px; pointer-events:none; z-index:2">
+      </sc-if>
+      <a href="case-1.html" class="case-cover zoom-cell" style="position:relative; display:block; height:100%; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); color:inherit; box-sizing:border-box">
+        <!-- подпись слева -->
+        <div style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
+          <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:32px; line-height:1.15; color:rgb(41,42,42)">Корпоративная EdTech Платформа</span>
+          <span style="font-size:14px; line-height:1.6; color:rgb(85,85,87)">Веб-платформа для обучения специалистов IT-направления</span>
+          <div style="display:flex; flex-direction:row; gap:8px; flex-wrap:wrap">
+            <span style="font-size:12px; color:rgb(18,103,233); background:rgba(18,103,233,0.09); border-radius:999px; padding:5px 12px">Продуктовый дизайн</span>
+            <span style="font-size:12px; color:rgb(18,103,233); background:rgba(18,103,233,0.09); border-radius:999px; padding:5px 12px">B2B</span>
+            <span style="font-size:12px; color:rgb(18,103,233); background:rgba(18,103,233,0.09); border-radius:999px; padding:5px 12px">2026</span>
           </div>
-          <p style="margin:0; font-size:15px; line-height:1.65; color:rgb(85,85,87); max-width:560px">Проектирую пользовательские флоу, интерактивные прототипы и вайрфреймы, развиваю компонентную базу. Разрабатываю функциональные иллюстрации и UI-элементы. Тесно работаю с разработчиками и аналитиками.</p>
         </div>
+        <!-- дудл-стрелка -->
+        <!-- скрин кейса (точный рендер из фигмы, карточки специально выезжают за макет) -->
+        <img src="./uploads/cover-case1.png" alt="Скрин кейса: платформа IT-мероприятий" class="zoom-img" style="position:absolute; left:462px; top:52px; width:770px; filter:drop-shadow(0 26px 40px rgba(20,30,60,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
+      </a>
       </div>
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
-        <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">Сент. 2021 — Сент. 2025</div>
-        <div style="display:flex; flex-direction:column; gap:10px">
-          <div style="display:flex; flex-direction:row; gap:10px; align-items:baseline; flex-wrap:wrap">
-            <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">Росатом</span>
-            <span style="font-size:14px; color:rgb(18,103,233)">DevOps инженер</span>
-            <span class="qtip" style="position:relative; display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; border:1.4px solid rgb(196,195,200); color:rgb(141,141,144); font-size:11px; font-weight:700; cursor:help">?
-              <span class="qtip-box" style="position:absolute; left:0; top:26px; width:320px; background:#fff; color:rgb(85,85,87); font-size:13px; line-height:1.55; font-weight:400; border-radius:14px; padding:16px 18px; box-shadow:0 16px 40px -12px rgba(20,30,60,0.28); z-index:20; text-align:left; white-space:normal">Четыре года в DevOps научили меня думать о продукте системно — я видела, как технические решения влияют на пользователей. Со временем я поняла, что хочу формировать эти решения раньше, чем они попадают в разработку. Продуктовый дизайн — это точка, где можно влиять на продукт по-настоящему.</span>
-            </span>
+      <a href="case-1.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
+        <img src="./uploads/cover-case1-detail-2.png" alt="Кейс: UI-кит и журнал обновлений" class="zoom-img" style="width:82%; filter:drop-shadow(0 20px 32px rgba(20,30,60,0.22)); transition:transform 0.3s ease">
+      </a>
+      <a href="case-1.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
+        <img src="./uploads/cover-case1-detail-3.png" alt="Кейс: изометрическая иллюстрация Big Data" class="zoom-img" style="height:92%; filter:drop-shadow(0 20px 32px rgba(20,30,60,0.22)); transition:transform 0.3s ease">
+      </a>
+      <a href="case-2.html" class="zoom-cell" style="grid-column:span 2; position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); color:inherit">
+        <div style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
+          <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:32px; line-height:1.15; color:rgb(41,42,42)">Беспилотное такси</span>
+          <span style="font-size:14px; line-height:1.6; color:rgb(85,85,87)">Платформа мониторинга беспилотного такси</span>
+          <div style="display:flex; flex-direction:row; gap:8px; flex-wrap:wrap">
+            <span style="font-size:12px; color:rgb(178,94,20); background:rgba(232,138,20,0.14); border-radius:999px; padding:5px 12px">Продуктовый дизайн</span>
+            <span style="font-size:12px; color:rgb(178,94,20); background:rgba(232,138,20,0.14); border-radius:999px; padding:5px 12px">Учебное</span>
+            <span style="font-size:12px; color:rgb(178,94,20); background:rgba(232,138,20,0.14); border-radius:999px; padding:5px 12px">2026</span>
           </div>
         </div>
-      </div>
+        <img src="./uploads/Hover-On-Card-97954f78.png" alt="Скрин кейса: платформа мониторинга беспилотного такси" class="zoom-img" style="position:absolute; left:462px; top:52px; width:770px; border-radius:12px; filter:drop-shadow(0 26px 40px rgba(150,90,20,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
+      </a>
+      <a href="case-2.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
+        <img src="./uploads/cover-case2-detail-1.png" alt="Кейс: приборная панель мониторинга беспилотного такси" class="zoom-img" style="width:82%; border-radius:12px; filter:drop-shadow(0 20px 32px rgba(150,90,20,0.22)); transition:transform 0.3s ease">
+      </a>
+      <a href="case-2.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
+        <img src="./uploads/cover-case2-detail-2.png" alt="Кейс: чат поддержки и обращения клиентов" class="zoom-img" style="width:82%; border-radius:12px; filter:drop-shadow(0 20px 32px rgba(150,90,20,0.22)); transition:transform 0.3s ease">
+      </a>
+      <sc-if value="{{ showCats }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute; left:-108px; bottom:-38px; width:90px; height:72px; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; transform:rotate(-8deg); pointer-events:none; z-index:2"></div>
+      </sc-if>
+      <svg viewBox="0 0 60 60" style="position:absolute; right:-52px; bottom:200px; width:46px; height:46px; pointer-events:none; z-index:2" fill="none"><path d="M 30 4 L 33 22 L 51 25 L 33 28 L 30 46 L 27 28 L 9 25 L 27 22 Z" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linejoin="round"></path></svg>
+      <svg viewBox="0 0 120 20" style="position:absolute; left:60px; bottom:-34px; width:110px; height:18px; pointer-events:none; z-index:2" fill="none"><path d="M 4 12 C 24 6 44 16 64 9 C 84 3 100 13 116 8" stroke="rgb(18,103,233)" stroke-width="3" stroke-linecap="round"></path></svg>
     </div>
   </div>
 
-  <!-- образование -->
-  <div data-screen-label="образование" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
-    <span style="font-size:15px; color:rgb(18,103,233)">// Образование</span>
-    <div style="display:flex; flex-direction:column; margin-top:26px; max-width:760px">
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
-        <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">2025 · Бакалавр</div>
-        <div style="display:flex; flex-direction:column; gap:6px">
-          <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">Российский государственный профессионально-педагогический университет, Екатеринбург</span>
-          <span style="font-size:14px; color:rgb(18,103,233)">Информационные технологии по отраслям</span>
-        </div>
-      </div>
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
-        <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">2021 · Среднее специальное</div>
-        <div style="display:flex; flex-direction:column; gap:6px">
-          <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">УРТК им. А.С. Попова</span>
-          <span style="font-size:14px; color:rgb(18,103,233)">Информационная безопасность</span>
-        </div>
-        <div style="flex-shrink:0; margin-left:auto; padding-top:4px">
-          <span style="display:block; font-family:Caveat,cursive; font-weight:700; font-size:24px; color:rgb(220,60,50); transform:rotate(-4deg)">красный диплом</span>
-          <svg viewBox="0 0 140 14" style="width:130px; height:12px; margin-top:-2px" fill="none"><path d="M 4 8 C 30 2 60 12 90 6 C 108 3 122 9 136 5" stroke="rgb(220,60,50)" stroke-width="2" stroke-linecap="round"></path></svg>
-        </div>
-      </div>
+  <!-- навыки -->
+  <div data-screen-label="навыки" data-reveal style="max-width:1440px; margin:0 auto; padding:0 160px 110px; box-sizing:border-box">
+    <span style="font-size:15px; color:rgb(18,103,233)">// Скиллы</span>
+    <div style="display:flex; flex-direction:row; gap:12px; flex-wrap:wrap; margin-top:26px; max-width:900px">
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Figma</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Прототипы</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">UX-исследования</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Дизайн-системы</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">UI-кит</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Adobe Photoshop</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">AI tools</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">HTML</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">CSS</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Tilda</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Git</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Тимлидерство</span>
+      <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(18,103,233); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Иллюстрация ✎</span>
     </div>
   </div>
 
-  <!-- доска -->
-  <div data-screen-label="доска" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
-    <span style="font-size:15px; color:rgb(18,103,233)">// Вне работы</span>
-    <div style="position:relative; margin-top:26px">
-      <div style="position:relative; width:100%; aspect-ratio:1040/1000">
-
-        <div style="position:absolute; left:0%; top:4.17%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-6deg); cursor:zoom-in" onClick="{{ openHorse }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/IMG_2285.jpg" alt="Я с лошадью" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.15">
-        </div>
-
-        <div style="position:absolute; left:15.87%; top:2.6%; width:16.35%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(5deg); cursor:zoom-in" onClick="{{ openCow }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/IMG_4147.jpg" alt="Корова на холме" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:30.77%; top:5%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-4deg); cursor:zoom-in" onClick="{{ openMarmot }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(-4deg)"></div>
-          <img src="./uploads/IMG_4376.jpg" alt="Сурок с морковкой" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.2">
-        </div>
-
-        <div style="position:absolute; left:46.63%; top:2.29%; width:19.23%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(6deg); cursor:zoom-in" onClick="{{ openWaterfall1 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(120,170,255), rgb(30,90,200)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/IMG_5079.jpg" alt="Водопад в лесу" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.25">
-        </div>
-
-        <div style="position:absolute; left:63.94%; top:4.69%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-3deg); cursor:zoom-in" onClick="{{ openCat3 }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(2deg)"></div>
-          <img src="./uploads/B89354C5-0EB7-44D4-B8C5-1294521C42C8_1_105_c.jpeg" alt="Кот в ящике комода" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:80.77%; top:2.92%; width:19.23%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(4deg); cursor:zoom-in" onClick="{{ openHorse2 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/19300C19-9F3F-4FBA-978A-5B24673539BF_1_105_c.jpeg" alt="Верхом на лошади зимой" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:82.21%; top:26.04%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-6deg); cursor:zoom-in" onClick="{{ openRiver }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(3deg)"></div>
-          <img src="./uploads/IMG_5176.jpg" alt="Горная река" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
-        </div>
-
-        <div style="position:absolute; left:81.25%; top:46.88%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(3deg); cursor:zoom-in" onClick="{{ openCat5 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/597E31D3-53DA-4962-8006-FC86F0DB91C2_1_105_c.jpeg" alt="Чёрный кот на мотоцикле" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:80.29%; top:66.67%; width:16.35%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(4deg); cursor:zoom-in" onClick="{{ openWaterfall2 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(120,170,255), rgb(30,90,200)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/IMG_5501-65dd2be3.JPG" alt="Водопад среди скал" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.25">
-        </div>
-
-        <div style="position:absolute; left:61.06%; top:69.79%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-5deg); cursor:zoom-in" onClick="{{ openMountains }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(120,170,255), rgb(30,90,200)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/IMG_4754.jpg" alt="Я смотрю на горы" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.15">
-        </div>
-
-        <div style="position:absolute; left:41.83%; top:67.71%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(5deg); cursor:zoom-in" onClick="{{ openCat4 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(120,170,255), rgb(30,90,200)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/02E59041-D2F7-4534-B3DD-3881FCE2C82B_1_105_c.jpeg" alt="Кот силуэтом в окне" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.9">
-        </div>
-
-        <div style="position:absolute; left:22.6%; top:70.31%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-4deg); cursor:zoom-in" onClick="{{ openCat1 }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(-2deg)"></div>
-          <img src="./uploads/54C31C5B-A030-4B72-B333-A89A842BD36C_1_105_c.jpeg" alt="Мой кот на подушке" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:1.44%; top:67.19%; width:19.23%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(3deg); cursor:zoom-in" onClick="{{ openCat2 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/E94E8478-8C07-42DA-86CD-E03BCC2E8470_1_105_c.jpeg" alt="Кот спит на подоконнике" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/0.85">
-        </div>
-
-        <div style="position:absolute; left:1%; top:16%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-3deg); cursor:zoom-in" onClick="{{ openCat6 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/22415BA5-447A-43ED-A8C5-48547171C8F0_1_105_c.jpeg" alt="Котёнок с игрушкой-капустой" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
-        </div>
-
-        <div style="position:absolute; left:2.5%; top:32%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(4deg); cursor:zoom-in" onClick="{{ openMonkey }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(-3deg)"></div>
-          <img src="./uploads/6B954B3A-72F3-4C9D-8CB9-9376946A0AA2_1_105_c.jpeg" alt="Обезьяна на заборе с видом на город" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
-        </div>
-
-        <div style="position:absolute; left:0%; top:48%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-5deg); cursor:zoom-in" onClick="{{ openJapan1 }}">
-          <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(120,170,255), rgb(30,90,200)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
-          <img src="./uploads/F937BB74-AB3E-4A77-9896-CD9370FAE233_1_105_c.jpeg" alt="Ночная улица в Японии" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
-        </div>
-
-        <div style="position:absolute; left:83%; top:56%; width:17.31%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(4deg); cursor:zoom-in" onClick="{{ openJapan2 }}">
-          <div style="position:absolute; left:50%; top:-8px; margin-left:-34px; width:68px; height:22px; background:rgba(255,255,255,0.55); border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.15); transform:rotate(2deg)"></div>
-          <img src="./uploads/FC94B34A-E844-45D6-979E-8C849F62BA00_1_105_c.jpeg" alt="Переулок в Японии вечером" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
-        </div>
-
-        <div style="position:absolute; left:32%; top:calc(33% + 70px); width:36%; box-sizing:border-box; transform:rotate(-2deg)">
-          <span style="display:block; font-family:Caveat,cursive; font-weight:700; font-size:30px; line-height:1.35; color:rgb(18,103,233); text-align:center">В свободное время ищу горы, лошадей и приключения — желательно всё сразу</span>
-        </div>
-
+  <!-- контакты -->
+  <div id="contact" data-screen-label="контакты" style="position:relative; padding:110px 160px 90px; background:rgb(18,103,233); overflow:hidden">
+    <div style="max-width:1120px; margin:0 auto; position:relative">
+      <span style="font-size:15px; color:rgba(255,255,255,0.7)">// Контакты</span>
+      <h2 style="margin:20px 0 40px; font-family:Unbounded,sans-serif; font-weight:600; font-size:72px; line-height:0.95; color:#fff; max-width:900px">НАПИШЕМ <span style="white-space:nowrap">ЧТО-НИБУДЬ</span><br>ХОРОШЕЕ?</h2>
+      <div style="display:flex; flex-direction:row; gap:18px; align-items:center; flex-wrap:wrap">
+        <a href="mailto:nicakam788@gmail.com" target="_top" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:rgb(18,103,233); background:#fff; border-radius:999px; padding:18px 32px; transition:transform 0.2s ease" style-hover="transform:translateY(-3px)">Почта → nicakam788@gmail.com</a>
+        <a href="https://t.me/evershire" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:#fff; border:2px solid rgba(255,255,255,0.7); border-radius:999px; padding:16px 32px" style-hover="background:rgba(255,255,255,0.12); color:#fff">Телеграм → @evershire</a>
       </div>
-    </div>
-  </div>
-
-  <sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeLightbox }}" style="position:fixed; inset:0; background:rgba(20,20,25,0.82); display:flex; align-items:center; justify-content:center; z-index:200; cursor:zoom-out; padding:40px; box-sizing:border-box">
-      <img src="{{ lightbox }}" alt="" style="max-width:90vw; max-height:88vh; border-radius:6px; box-shadow:0 30px 80px rgba(0,0,0,0.5)">
-      <div onClick="{{ closeLightbox }}" style="position:absolute; top:24px; right:32px; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.12); color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; cursor:pointer">✕</div>
-    </div>
-  </sc-if>
-
-  <!-- футер -->
-  <div style="padding:34px 160px; background:rgb(18,103,233)">
-    <div style="max-width:1120px; margin:0 auto; display:flex; flex-direction:row; justify-content:space-between; align-items:center; font-size:14px; color:rgba(255,255,255,0.75)">
-      <span>Ника · продуктовый дизайнер</span>
-      <a href="index.html" style="color:#fff; font-weight:700">← На главную</a>
-      <span>© 2026</span>
+      <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
+        <span>Ника Каменецкая · продуктовый дизайнер</span>
+        <span>Екатеринбург —— {{ ekbTime }}</span>
+        <span>© 2026</span>
+      </div>
     </div>
   </div>
 </div>
 <div style="display:none; width:0; height:0; overflow:hidden"><x-import component-from-global-scope="image-slot" from="./image-slot.js" hint-size="0px,0px"></x-import></div>
+<div id="case-cursor">Перейти →</div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showCats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;настроение&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;showCats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;настроение&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;настроение&quot;}}">
 class Component extends DCLogic {
-  state = { ekbTime: '', lightbox: null, emailCopied: false };
+  state = { ekbTime: '', emailCopied: false };
   copyEmail = () => {
     const text = 'nicakam788@gmail.com';
     const markCopied = () => {
@@ -308,29 +288,10 @@ class Component extends DCLogic {
   };
   renderVals() {
     return {
-      showCats: this.props.showCats ?? true,
-      ekbTime: this.state.ekbTime,
-      lightbox: this.state.lightbox,
       emailLabel: this.state.emailCopied ? 'Скопировано ✓' : 'Почта → nicakam788@gmail.com',
       copyEmail: this.copyEmail,
-      closeLightbox: () => this.setState({ lightbox: null }),
-      openHorse: () => this.setState({ lightbox: './uploads/IMG_2285.jpg' }),
-      openCow: () => this.setState({ lightbox: './uploads/IMG_4147.jpg' }),
-      openMarmot: () => this.setState({ lightbox: './uploads/IMG_4376.jpg' }),
-      openWaterfall1: () => this.setState({ lightbox: './uploads/IMG_5079.jpg' }),
-      openRiver: () => this.setState({ lightbox: './uploads/IMG_5176.jpg' }),
-      openWaterfall2: () => this.setState({ lightbox: './uploads/IMG_5501-65dd2be3.JPG' }),
-      openMountains: () => this.setState({ lightbox: './uploads/IMG_4754.jpg' }),
-      openCat1: () => this.setState({ lightbox: './uploads/54C31C5B-A030-4B72-B333-A89A842BD36C_1_105_c.jpeg' }),
-      openCat2: () => this.setState({ lightbox: './uploads/E94E8478-8C07-42DA-86CD-E03BCC2E8470_1_105_c.jpeg' }),
-      openCat3: () => this.setState({ lightbox: './uploads/B89354C5-0EB7-44D4-B8C5-1294521C42C8_1_105_c.jpeg' }),
-      openCat4: () => this.setState({ lightbox: './uploads/02E59041-D2F7-4534-B3DD-3881FCE2C82B_1_105_c.jpeg' }),
-      openCat5: () => this.setState({ lightbox: './uploads/597E31D3-53DA-4962-8006-FC86F0DB91C2_1_105_c.jpeg' }),
-      openHorse2: () => this.setState({ lightbox: './uploads/19300C19-9F3F-4FBA-978A-5B24673539BF_1_105_c.jpeg' }),
-      openCat6: () => this.setState({ lightbox: './uploads/22415BA5-447A-43ED-A8C5-48547171C8F0_1_105_c.jpeg' }),
-      openMonkey: () => this.setState({ lightbox: './uploads/6B954B3A-72F3-4C9D-8CB9-9376946A0AA2_1_105_c.jpeg' }),
-      openJapan1: () => this.setState({ lightbox: './uploads/F937BB74-AB3E-4A77-9896-CD9370FAE233_1_105_c.jpeg' }),
-      openJapan2: () => this.setState({ lightbox: './uploads/FC94B34A-E844-45D6-979E-8C849F62BA00_1_105_c.jpeg' }),
+      showCats: this.props.showCats ?? true,
+      ekbTime: this.state.ekbTime,
     };
   }
   _tick() {
@@ -340,6 +301,47 @@ class Component extends DCLogic {
   componentDidMount() {
     this._tick();
     this._clock = setInterval(() => this._tick(), 1000);
+    this._cursorEl = null;
+    this._onCaseMove = (e) => {
+      if (!this._cursorEl) this._cursorEl = document.getElementById('case-cursor');
+      const el = this._cursorEl;
+      if (!el) return;
+      const hovering = !!e.target.closest('.zoom-cell, .case-cover');
+      el.style.left = e.clientX + 'px';
+      el.style.top = e.clientY + 'px';
+      el.classList.toggle('show', hovering);
+    };
+    document.addEventListener('mousemove', this._onCaseMove);
+    this._onMove = (e) => {
+      if (!(this.props.parallax ?? true)) return;
+      document.querySelectorAll('[data-hero]').forEach((hero) => {
+        const r = hero.getBoundingClientRect();
+        if (r.width === 0) return;
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        hero.querySelectorAll('[data-px]').forEach((el) => {
+          const f = parseFloat(el.getAttribute('data-px')) * 100;
+          el.style.transform = 'translate(' + (-dx * f).toFixed(1) + 'px, ' + (-dy * f).toFixed(1) + 'px)';
+        });
+      });
+    };
+    window.addEventListener('mousemove', this._onMove);
+
+    this._onEyeMove = (e) => {
+      ['site-eye-1', 'site-eye-2'].forEach((id) => {
+        const eye = document.getElementById(id);
+        if (!eye) return;
+        const r = eye.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const dx = e.clientX - cx, dy = e.clientY - cy;
+        const dist = Math.min(Math.hypot(dx, dy), 220);
+        const max = 5.5;
+        const scale = dist === 0 ? 0 : (max * Math.min(dist, 220) / 220) / Math.max(Math.hypot(dx, dy), 0.001);
+        eye.style.transform = 'translate(calc(-50% + ' + (dx * scale).toFixed(1) + 'px), calc(-50% + ' + (dy * scale).toFixed(1) + 'px))';
+      });
+    };
+    window.addEventListener('mousemove', this._onEyeMove);
+
     this._onScroll = () => {
       const h = document.querySelector('[data-header]');
       if (!h) return;
@@ -359,10 +361,30 @@ class Component extends DCLogic {
     };
     window.addEventListener('scroll', this._onScroll, { passive: true });
     this._onScroll();
+
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add('on');
+          this._io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    this._revealTimer = setInterval(() => {
+      document.querySelectorAll('[data-reveal]:not(.observed)').forEach((el) => {
+        el.classList.add('observed');
+        this._io.observe(el);
+      });
+    }, 400);
   }
   componentWillUnmount() {
     clearInterval(this._clock);
+    window.removeEventListener('mousemove', this._onMove);
+    window.removeEventListener('mousemove', this._onEyeMove);
+    document.removeEventListener('mousemove', this._onCaseMove);
     window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+    clearInterval(this._revealTimer);
   }
 }
 </script>

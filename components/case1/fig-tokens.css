@@ -1,0 +1,63 @@
+/* Generated from Figma Variables. First mode = :root default.
+   FLOAT tokens are unitless — multiply by 1px in calc() where a length is needed. */
+
+:root {
+  --base-black: var(--color-base-black); /* @kind color */
+  --base-gray-2: var(--color-base-grey-2); /* @kind color */
+  --base-gray: var(--color-base-grey); /* @kind color */
+  --base-stroke: var(--color-base-stroke); /* @kind color */
+  --base-white-2: var(--color-base-white-primary-2); /* @kind color */
+  --base-white: var(--color-base-white-primary); /* @kind color */
+  --bg-info-2: rgba(43,127,255,0.15); /* @kind color */
+  --bg-info: rgba(43,127,255,0.15); /* @kind color */
+  --bg-primary: var(--base-white); /* @kind color */
+  --bg-surface1: var(--neutral-0); /* @kind color */
+  --border-radius-base: 6;
+  --border-radius-buttons: var(--border-radius-m);
+  --border-radius-m: var(--border-radius-base);
+  --button-xl-border-radius: var(--border-radius-buttons);
+  --color-base-black: rgb(0,0,0); /* @kind color */
+  --color-base-grey-2: rgb(170,171,185); /* @kind color */
+  --color-base-grey: rgb(170,171,185); /* @kind color */
+  --color-base-stroke: rgb(241,241,244); /* @kind color */
+  --color-base-white-primary-2: rgb(255,255,255); /* @kind color */
+  --color-base-white-primary: rgb(255,255,255); /* @kind color */
+  --color-blue-100: rgb(219,234,254); /* @kind color */
+  --color-blue-200: rgb(190,219,255); /* @kind color */
+  --color-blue-300: rgb(142,197,255); /* @kind color */
+  --color-blue-400: rgb(81,162,255); /* @kind color */
+  --color-blue-500: rgb(43,127,255); /* @kind color */
+  --color-blue-50: rgb(239,246,255); /* @kind color */
+  --color-blue-600: rgb(21,93,252); /* @kind color */
+  --color-blue-700: rgb(20,71,230); /* @kind color */
+  --color-cyan-300: rgb(83,234,253); /* @kind color */
+  --color-cyan-600: rgb(0,146,184); /* @kind color */
+  --color-gray-200: rgb(229,231,235); /* @kind color */
+  --color-gray-500: rgb(106,114,130); /* @kind color */
+  --color-orange-500: rgb(255,105,0); /* @kind color */
+  --color-orange-600: rgb(245,74,0); /* @kind color */
+  --focus-contrast-color: var(--focus-contrast); /* @kind color */
+  --focus-contrast-extra-color: var(--focus-extra); /* @kind color */
+  --focus-contrast: rgba(0,85,255,0.1); /* @kind color */
+  --focus-extra: var(--bg-surface1); /* @kind color */
+  --focus-soft-color: var(--focus-soft); /* @kind color */
+  --focus-soft: rgba(0,85,255,0.1); /* @kind color */
+  --naive-numbers-full: 9999;
+  --naive-numbers-lg: 8;
+  --neutral-0: rgb(255,255,255); /* @kind color */
+  --neutral-925: rgb(29,36,49); /* @kind color */
+  --numeric-numbers-3xl: 24;
+  --numeric-numbers-full: 9999;
+  --numeric-numbers-lg: 8;
+  --numeric-numbers-md: 6;
+  --numeric-numbers-sm-2: 4;
+  --numeric-numbers-sm: 4;
+  --numeric-numbers-xl: 12;
+}
+
+:root[data-theme="dark"], .dark {
+  --bg-surface1: var(--neutral-925); /* @kind color */
+  --focus-contrast: rgba(51,119,255,0.2); /* @kind color */
+  --focus-extra: var(--bg-surface1); /* @kind color */
+  --focus-soft: rgba(51,119,255,0.2); /* @kind color */
+}
