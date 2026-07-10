@@ -19,6 +19,8 @@
     [data-cat]:hover .cat-sign path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.7s ease 0.05s; }
     .contact-menu { opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 30; }
     .contact-dd:hover .contact-menu { opacity: 1; transform: none; pointer-events: auto; }
+    [data-header] { transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease; }
+    [data-header].scrolled { background: rgba(255,255,255,0.62) !important; border-color: rgba(229,231,235,0.9) !important; box-shadow: 0 10px 28px -14px rgba(0,0,0,0.1) !important; backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important; }
   </style>
 
 </head>
@@ -160,27 +162,15 @@
 (function () {
   function initHeaderScroll() {
     var headerEl = document.querySelector('[data-header]');
-    var scrolled = null;
     var ticking = false;
+    var isScrolled = null;
     var applyHeader = function () {
       ticking = false;
       if (!headerEl) return;
-      var isScrolled = window.scrollY > 24;
-      if (isScrolled === scrolled) return;
-      scrolled = isScrolled;
-      if (isScrolled) {
-        headerEl.style.background = 'rgba(255,255,255,0.62)';
-        headerEl.style.borderColor = 'rgba(229,231,235,0.9)';
-        headerEl.style.boxShadow = '0 10px 28px -14px rgba(0,0,0,0.1)';
-        headerEl.style.backdropFilter = 'blur(24px)';
-        headerEl.style.webkitBackdropFilter = 'blur(24px)';
-      } else {
-        headerEl.style.background = 'transparent';
-        headerEl.style.borderColor = 'transparent';
-        headerEl.style.boxShadow = 'none';
-        headerEl.style.backdropFilter = 'none';
-        headerEl.style.webkitBackdropFilter = 'none';
-      }
+      var next = window.scrollY > 24;
+      if (next === isScrolled) return;
+      isScrolled = next;
+      headerEl.classList.toggle('scrolled', next);
     };
     var onScroll = function () {
       if (ticking) return;
