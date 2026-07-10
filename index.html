@@ -453,26 +453,26 @@
 (function () {
   function initScrollspy() {
     var casesEl = document.getElementById('cases');
-    var contactEl = document.querySelector('[data-screen-label="контакты"]');
+    var contactEl = document.getElementById('contact');
     var navCases = document.querySelector('.nav-link[data-nav="cases"]');
     var navContact = document.querySelector('.nav-link[data-nav="contact"]');
     if (!navCases || !navContact) return;
-    var ticking = false;
-    function apply() {
-      ticking = false;
-      var active = null;
-      var probeY = 120;
-      if (contactEl && contactEl.getBoundingClientRect().top <= probeY) active = 'contact';
-      else if (casesEl && casesEl.getBoundingClientRect().top <= probeY) active = 'cases';
-      navCases.classList.toggle('active', active === 'cases');
-      navContact.classList.toggle('active', active === 'contact');
+    var current = null;
+    function setActive(name) {
+      current = name;
+      navCases.classList.toggle('active', name === 'cases');
+      navContact.classList.toggle('active', name === 'contact');
     }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(apply);
-    }, { passive: true });
-    apply();
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        if (entry.target === contactEl) setActive('contact');
+        else if (entry.target === casesEl) setActive('cases');
+      });
+    }, { rootMargin: '-96px 0px -70% 0px', threshold: 0 });
+    if (casesEl) io.observe(casesEl);
+    if (contactEl) io.observe(contactEl);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initScrollspy);
