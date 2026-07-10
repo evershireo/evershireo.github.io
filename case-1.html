@@ -401,25 +401,36 @@
 <script>
 (function () {
   function initHeaderScroll() {
-    var onScroll = function () {
-      var h = document.querySelector('[data-header]');
-      if (!h) return;
-      if (window.scrollY > 24) {
-        h.style.background = 'rgba(255,255,255,0.62)';
-        h.style.borderColor = 'rgba(229,231,235,0.9)';
-        h.style.boxShadow = '0 10px 28px -14px rgba(0,0,0,0.1)';
-        h.style.backdropFilter = 'blur(24px)';
-        h.style.webkitBackdropFilter = 'blur(24px)';
+    var headerEl = document.querySelector('[data-header]');
+    var scrolled = null;
+    var ticking = false;
+    var applyHeader = function () {
+      ticking = false;
+      if (!headerEl) return;
+      var isScrolled = window.scrollY > 24;
+      if (isScrolled === scrolled) return;
+      scrolled = isScrolled;
+      if (isScrolled) {
+        headerEl.style.background = 'rgba(255,255,255,0.62)';
+        headerEl.style.borderColor = 'rgba(229,231,235,0.9)';
+        headerEl.style.boxShadow = '0 10px 28px -14px rgba(0,0,0,0.1)';
+        headerEl.style.backdropFilter = 'blur(24px)';
+        headerEl.style.webkitBackdropFilter = 'blur(24px)';
       } else {
-        h.style.background = 'transparent';
-        h.style.borderColor = 'transparent';
-        h.style.boxShadow = 'none';
-        h.style.backdropFilter = 'none';
-        h.style.webkitBackdropFilter = 'none';
+        headerEl.style.background = 'transparent';
+        headerEl.style.borderColor = 'transparent';
+        headerEl.style.boxShadow = 'none';
+        headerEl.style.backdropFilter = 'none';
+        headerEl.style.webkitBackdropFilter = 'none';
       }
     };
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(applyHeader);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    applyHeader();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHeaderScroll);
