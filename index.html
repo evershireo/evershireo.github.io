@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="./uploads/nika-avatar.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +12,7 @@
   <link rel="stylesheet" href="./components/case1/fig-assets.css">
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: rgb(249,250,251); }
+    body { margin: 0; background: rgb(249,250,251); overflow-x: hidden; }
     a { color: rgb(18,103,233); text-decoration: none; }
     a:hover { color: rgb(29,78,216); }
     @keyframes catfloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
@@ -49,6 +50,44 @@
       [style*="catfloat"] { animation: none !important; }
       [data-reveal] { transition: opacity 0.3s ease !important; transform: none !important; }
     }
+
+    /* ───────── mobile ───────── */
+    @media (max-width: 860px) {
+      .section-pad { padding-left: 24px !important; padding-right: 24px !important; }
+      [data-header] { width: calc(100vw - 24px) !important; padding: 0 8px 0 8px !important; }
+      .header-nav { display: flex !important; }
+      .header-nav a:not(.nav-about) { display: none !important; }
+      .nav-about { padding: 9px 14px !important; font-size: 13px !important; }
+      .header-name { display: none; }
+      [data-hero] { height: auto !important; min-height: 640px !important; padding: 150px 24px 60px !important; box-sizing: border-box; }
+      [data-hero] [data-px] { display: none !important; }
+      .hero-sig { display: none !important; }
+      .hero-heading { position: static !important; width: 100% !important; margin-top: 0 !important; align-items: center; text-align: center; }
+      .hero-heading > div:first-child { margin-top: 0 !important; }
+      .hero-heading span[style*="font-size:106px"] { font-size: 15vw !important; line-height: 0.95 !important; white-space: normal !important; }
+      .hero-heading > div:nth-child(2) { justify-content: center !important; flex-wrap: wrap !important; width: 100% !important; }
+      .hero-scrollhint { position: static !important; margin-top: 40px; }
+      .cases-grid { grid-template-columns: 1fr !important; grid-auto-rows: auto !important; }
+      .cases-grid > a, .cases-grid > .cover-wrap { min-height: 320px; }
+      .cover-wrap { grid-column: span 1 !important; }
+      .cases-grid > a[style*="grid-column:span 2"] { grid-column: span 1 !important; }
+      a.case-cover, a[style*="grid-column:span 2"] { height: 320px !important; padding: 24px 0 !important; }
+      .case-text { position: static !important; width: 100% !important; padding: 24px !important; box-sizing: border-box; text-align: center; align-items: center !important; }
+      .case-text span[style*="font-size:32px"] { font-size: 24px !important; }
+      .case-bleed-img { display: none !important; }
+      .cases-grid > a.zoom-cell:not(.case-cover) { height: 260px !important; }
+      .cases-grid > a.zoom-cell:not(.case-cover) .zoom-img { width: 78% !important; height: auto !important; max-height: 82% !important; object-fit: contain; }
+      .cat-hang { display: none !important; }
+      #cases svg { display: none !important; }
+      #cases > .cases-grid > div[style*="background:url"] { display: none !important; }
+      .contact-h2 { font-size: 12vw !important; }
+      .contact-footer-row { flex-direction: column !important; gap: 8px; align-items: flex-start !important; }
+      [data-screen-label="навыки"] span[style*="font-size:20px"] { font-size: 16px !important; padding: 10px 16px !important; }
+    }
+    @media (max-width: 420px) {
+      [data-header] a[style*="width:40px"] { width: 34px !important; height: 34px !important; }
+      .contact-h2 { font-size: 13vw !important; }
+    }
   </style>
 
 <style>.hv1:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv2:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv3:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv4:hover{background:rgb(229,232,240); color:rgb(41,42,42); transform:scale(1.08)!important}.hv5:hover{background:rgb(29,78,216); transform:scale(1.08)!important}.hv6:hover{background:rgb(238,240,245)!important}.hv7:hover{background:rgb(238,240,245)!important}.hv8:hover{transform:translateY(-3px)!important}.hv9:hover{background:rgba(255,255,255,0.12); color:#fff!important}</style>
@@ -64,18 +103,18 @@
       <a href="#top" data-cat="1" style="display:flex; flex-direction:row; gap:11px; align-items:center; justify-self:start; color:rgb(41,42,42)">
         <div style="position:relative; width:38px; height:38px; border-radius:12px; flex-shrink:0">
           <div style="width:38px; height:38px; border-radius:12px; overflow:hidden">
-            <img src="/uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
+            <img src="./uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
           </div>
           <svg class="cat-sign" viewBox="0 0 70 70" style="position:absolute; left:-9px; top:-13px; width:62px; height:62px" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path pathLength="200" d="M 14 22 C 13.5 17 14 10 16 5.5 C 19.5 8 22.5 11 24 14.5 M 38 14.5 C 39.5 11 42.5 8 46 5.5 C 48 10 48.5 17 48 22 M 53 43 C 60 44.5 66 41 65.5 35.5 C 65 31 60 30 58 33 C 56.5 35.5 59 38.5 62.5 38"></path>
           </svg>
         </div>
-        <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
+        <span class="header-name" style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
       </a>
-      <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
+      <div class="header-nav" style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
         <a href="#cases" class="nav-link hv1" data-nav="cases" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap">Кейсы</a>
         <a href="#contact" class="nav-link hv2" data-nav="contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap">Контакты</a>
-        <a href="about.html" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv3">Обо мне</a>
+        <a href="about.html" class="nav-about hv3" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap">Обо мне</a>
       </div>
       <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
         <a href="./assets/resume.pdf" download="Nika-Kamenetskaya-CV.pdf" title="скачать резюме" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgba(60,60,60,0.07); color:rgb(60,60,60); font-size:14px; font-weight:700; transition:transform 0.2s ease" class="hv4">CV</a>
@@ -105,7 +144,7 @@
     </div>
 
     <!-- подпись «Ника» -->
-    <div style="position:absolute; left:359px; top:252px; width:237px; height:206px; transform:rotate(-1.83deg); transform-origin:0 0; z-index:6; animation:heroin 0.9s ease-out 0.15s both">
+    <div class="hero-sig" style="position:absolute; left:359px; top:252px; width:237px; height:206px; transform:rotate(-1.83deg); transform-origin:0 0; z-index:6; animation:heroin 0.9s ease-out 0.15s both">
       <img src="./assets/sig/Vector-4.svg" alt="" style="position:absolute; left:29.4px; top:36px; width:53.2px; height:133.7px">
       <img src="./assets/sig/Vector-5.svg" alt="" style="position:absolute; left:14.7px; top:47.1px; width:23.8px; height:131.2px">
       <img src="./assets/sig/Vector-6.svg" alt="" style="position:absolute; left:165.9px; top:119.7px; width:59.9px; height:47px">
@@ -138,7 +177,7 @@
     </div>
 
     <!-- заголовок -->
-    <div style="position:absolute; left:427px; top:410px; width:543px; display:flex; flex-direction:column; gap:9px; z-index:30; animation:heroin 0.9s ease-out 0.05s both">
+    <div class="hero-heading" style="position:absolute; left:427px; top:410px; width:543px; display:flex; flex-direction:column; gap:9px; z-index:30; animation:heroin 0.9s ease-out 0.05s both">
       <div style="position:relative; margin-top:30px">
         <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:106px; line-height:0.88; color:rgb(18,103,233); display:block">ПОРТ <span style="white-space:nowrap">Ф<span style="position:relative; display:inline-block">О<span id="site-eye-1" style="position:absolute; left:50%; top:53%; transform:translate(-50%,-50%); width:33px; height:32px; border-radius:50%; background:rgb(60,60,60)"></span></span>ЛИ<span style="position:relative; display:inline-block">О<span id="site-eye-2" style="position:absolute; left:50%; top:53%; transform:translate(-50%,-50%); width:33px; height:32px; border-radius:50%; background:rgb(60,60,60)"></span></span></span></span>
       </div>
@@ -162,19 +201,19 @@
       <div data-px="0.04" style="position:absolute; left:1128px; top:415px; width:106px; height:94px; z-index:4"><div style="width:100%; height:100%; background:url('./assets/cats.png') 85.4% 7.1% / 301% 338% no-repeat; animation:catfloat 8.5s ease-in-out infinite"></div></div>
     
 
-    <div style="position:absolute; left:0; right:0; bottom:22px; display:flex; justify-content:center; font-size:13px; color:rgb(141,141,144)">↓ Листайте</div>
+    <div class="hero-scrollhint" style="position:absolute; left:0; right:0; bottom:22px; display:flex; justify-content:center; font-size:13px; color:rgb(141,141,144)">↓ Листайте</div>
   </div>
 
   <!-- кейсы -->
-  <div id="cases" data-screen-label="кейсы" data-reveal style="max-width:1440px; margin:0 auto; padding:130px 160px 110px; box-sizing:border-box">
-    <div style="position:relative; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:440px; gap:24px">
+  <div id="cases" data-screen-label="кейсы" data-reveal style="max-width:1440px; margin:0 auto; padding:130px 160px 110px; box-sizing:border-box" class="section-pad">
+    <div class="cases-grid" style="position:relative; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:440px; gap:24px">
       <div class="cover-wrap" style="grid-column:span 2; position:relative">
       
         <img src="./assets/cat-hang.png" alt="" class="cat-hang" style="position:absolute; right:110px; top:-49px; width:180px; pointer-events:none; z-index:2">
       
       <a href="case-1.html" class="case-cover zoom-cell" style="position:relative; display:block; height:100%; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); color:inherit; box-sizing:border-box">
         <!-- подпись слева -->
-        <div style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
+        <div class="case-text" style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
           <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:32px; line-height:1.15; color:rgb(41,42,42)">Корпоративная EdTech Платформа</span>
           <span style="font-size:14px; line-height:1.6; color:rgb(85,85,87)">Веб-платформа для обучения специалистов IT-направления</span>
           <div style="display:flex; flex-direction:row; gap:8px; flex-wrap:wrap">
@@ -185,7 +224,7 @@
         </div>
         <!-- дудл-стрелка -->
         <!-- скрин кейса (точный рендер из фигмы, карточки специально выезжают за макет) -->
-        <img src="./uploads/cover-case1.png" alt="Скрин кейса: платформа IT-мероприятий" class="zoom-img" style="position:absolute; left:462px; top:52px; width:770px; filter:drop-shadow(0 26px 40px rgba(20,30,60,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
+        <img src="./uploads/cover-case1.png" alt="Скрин кейса: платформа IT-мероприятий" class="zoom-img case-bleed-img" style="position:absolute; left:462px; top:52px; width:770px; filter:drop-shadow(0 26px 40px rgba(20,30,60,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
       </a>
       </div>
       <a href="case-1.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(238,242,255) 0%, rgb(219,234,254) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
@@ -195,7 +234,7 @@
         <img src="./uploads/cover-case1-detail-3.png" alt="Кейс: изометрическая иллюстрация Big Data" class="zoom-img" style="height:92%; filter:drop-shadow(0 20px 32px rgba(20,30,60,0.22)); transition:transform 0.3s ease">
       </a>
       <a href="case-2.html" class="zoom-cell" style="grid-column:span 2; position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); color:inherit">
-        <div style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
+        <div class="case-text" style="position:absolute; left:56px; top:0; bottom:0; width:360px; display:flex; flex-direction:column; justify-content:center; gap:18px; z-index:2">
           <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:32px; line-height:1.15; color:rgb(41,42,42)">Беспилотное такси</span>
           <span style="font-size:14px; line-height:1.6; color:rgb(85,85,87)">Платформа мониторинга беспилотного такси</span>
           <div style="display:flex; flex-direction:row; gap:8px; flex-wrap:wrap">
@@ -204,7 +243,7 @@
             <span style="font-size:12px; color:rgb(178,94,20); background:rgba(232,138,20,0.14); border-radius:999px; padding:5px 12px">2026</span>
           </div>
         </div>
-        <img src="./uploads/Hover-On-Card-97954f78.png" alt="Скрин кейса: платформа мониторинга беспилотного такси" class="zoom-img" style="position:absolute; left:462px; top:52px; width:770px; border-radius:12px; filter:drop-shadow(0 26px 40px rgba(150,90,20,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
+        <img src="./uploads/Hover-On-Card-97954f78.png" alt="Скрин кейса: платформа мониторинга беспилотного такси" class="zoom-img case-bleed-img" style="position:absolute; left:462px; top:52px; width:770px; border-radius:12px; filter:drop-shadow(0 26px 40px rgba(150,90,20,0.28)); transition:transform 0.3s ease; transform-origin:20% 50%">
       </a>
       <a href="case-2.html" class="zoom-cell" style="position:relative; display:block; border-radius:24px; overflow:hidden; background:linear-gradient(119deg, rgb(255,244,232) 0%, rgb(255,214,163) 100%); box-shadow:0 10px 30px -18px rgba(20,30,60,0.25); display:flex; align-items:center; justify-content:center">
         <img src="./uploads/cover-case2-detail-1.png" alt="Кейс: приборная панель мониторинга беспилотного такси" class="zoom-img" style="width:82%; border-radius:12px; filter:drop-shadow(0 20px 32px rgba(150,90,20,0.22)); transition:transform 0.3s ease">
@@ -221,7 +260,7 @@
   </div>
 
   <!-- навыки -->
-  <div data-screen-label="навыки" data-reveal style="max-width:1440px; margin:0 auto; padding:0 160px 110px; box-sizing:border-box">
+  <div data-screen-label="навыки" data-reveal style="max-width:1440px; margin:0 auto; padding:0 160px 110px; box-sizing:border-box" class="section-pad">
     <span style="font-size:15px; color:rgb(18,103,233)">// Скиллы</span>
     <div style="display:flex; flex-direction:row; gap:12px; flex-wrap:wrap; margin-top:26px; max-width:900px">
       <span style="font-family:Unbounded,sans-serif; font-weight:500; font-size:20px; color:rgb(41,42,42); background:#fff; border-radius:14px; padding:14px 22px; box-shadow:0 6px 18px -12px rgba(20,30,60,0.3)">Figma</span>
@@ -241,15 +280,15 @@
   </div>
 
   <!-- контакты -->
-  <div id="contact" data-screen-label="контакты" style="position:relative; padding:110px 160px 90px; background:rgb(18,103,233); overflow:hidden">
+  <div id="contact" data-screen-label="контакты" style="position:relative; padding:110px 160px 90px; background:rgb(18,103,233); overflow:hidden" class="section-pad">
     <div style="max-width:1120px; margin:0 auto; position:relative">
       <span style="font-size:15px; color:rgba(255,255,255,0.7)">// Контакты</span>
-      <h2 style="margin:20px 0 40px; font-family:Unbounded,sans-serif; font-weight:600; font-size:72px; line-height:0.95; color:#fff; max-width:900px">НАПИШЕМ <span style="white-space:nowrap">ЧТО-НИБУДЬ</span><br>ХОРОШЕЕ?</h2>
+      <h2 class="contact-h2" style="margin:20px 0 40px; font-family:Unbounded,sans-serif; font-weight:600; font-size:72px; line-height:0.95; color:#fff; max-width:900px">НАПИШЕМ <span style="white-space:nowrap">ЧТО-НИБУДЬ</span><br>ХОРОШЕЕ?</h2>
       <div style="display:flex; flex-direction:row; gap:18px; align-items:center; flex-wrap:wrap">
         <a href="mailto:nicakam788@gmail.com" target="_top" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:rgb(18,103,233); background:#fff; border-radius:999px; padding:18px 32px; transition:transform 0.2s ease" class="hv8">Почта → nicakam788@gmail.com</a>
         <a href="https://t.me/evershire" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:#fff; border:2px solid rgba(255,255,255,0.7); border-radius:999px; padding:16px 32px" class="hv9">Телеграм → @evershire</a>
       </div>
-      <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
+      <div class="contact-footer-row" style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
         <span>Ника Каменецкая · продуктовый дизайнер</span>
         <span>Екатеринбург —— <span class="ekb-time">—:—</span></span>
         <span>© 2026</span>

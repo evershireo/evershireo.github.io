@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="./uploads/nika-avatar.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: rgb(249,250,251); }
+    body { margin: 0; background: rgb(249,250,251); overflow-x: hidden; }
+    .qtip-box-cap { max-width: calc(100vw - 40px); }
     a { color: rgb(18,103,233); text-decoration: none; }
     a:hover { color: rgb(29,78,216); }
     @keyframes catfloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
@@ -29,6 +31,28 @@
     .qtip-box { opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; }
     .qtip:hover .qtip-box { opacity: 1; transform: none; pointer-events: auto; }
 
+    /* ───────── mobile ───────── */
+    @media (max-width: 860px) {
+      .section-pad { padding-left: 24px !important; padding-right: 24px !important; }
+      [data-header] { width: calc(100vw - 24px) !important; padding: 0 8px 0 8px !important; }
+      .header-nav { display: flex !important; }
+      .header-nav a:not(.nav-about) { display: none !important; }
+      .nav-about { padding: 9px 14px !important; font-size: 13px !important; }
+      .header-name { display: none; }
+      .about-row { flex-direction: column !important; align-items: center !important; gap: 40px !important; text-align: center; }
+      .about-row > div:last-child { padding-top: 0 !important; align-items: center !important; }
+      .photo-hover { width: 100% !important; max-width: 340px; }
+      .photo-hover > div:first-child { width: 100% !important; height: auto !important; aspect-ratio: 340/400; }
+      .photo-anno { display: none !important; }
+      .exp-row, .edu-row { flex-direction: column !important; gap: 8px !important; }
+      .exp-row > div:first-child, .edu-row > div:first-child { width: auto !important; }
+      .edu-row > div:last-child { margin-left: 0 !important; }
+      .board-wrap { aspect-ratio: auto !important; }
+      .board-wrap > div[style*="position:absolute"]:not(.board-note) { position:static !important; width: 42% !important; display:inline-block; margin: 6px 1%; transform: none !important; }
+      .board-note { position: static !important; width: 100% !important; margin-top: 24px; display: block !important; }
+      .qtip-box { left: auto !important; right: 0 !important; width: 280px !important; max-width: calc(100vw - 40px); }
+      .footer-row { flex-direction: column !important; gap: 10px; text-align: center; }
+    }
   </style>
 
 <style>.hv1:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv2:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv3:hover{background:rgb(229,232,240)!important}.hv4:hover{background:rgb(229,232,240); color:rgb(41,42,42); transform:scale(1.08)!important}.hv5:hover{background:rgb(29,78,216); transform:scale(1.08)!important}.hv6:hover{background:rgb(238,240,245)!important}.hv7:hover{background:rgb(238,240,245)!important}</style>
@@ -42,18 +66,18 @@
     <a href="index.html" data-cat="1" style="display:flex; flex-direction:row; gap:11px; align-items:center; justify-self:start; color:rgb(41,42,42)">
       <div style="position:relative; width:38px; height:38px; border-radius:12px; flex-shrink:0">
         <div style="width:38px; height:38px; border-radius:12px; overflow:hidden">
-          <img src="/uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
+          <img src="./uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
         </div>
         <svg class="cat-sign" viewBox="0 0 70 70" style="position:absolute; left:-9px; top:-13px; width:62px; height:62px" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path pathLength="200" d="M 14 22 C 13.5 17 14 10 16 5.5 C 19.5 8 22.5 11 24 14.5 M 38 14.5 C 39.5 11 42.5 8 46 5.5 C 48 10 48.5 17 48 22 M 53 43 C 60 44.5 66 41 65.5 35.5 C 65 31 60 30 58 33 C 56.5 35.5 59 38.5 62.5 38"></path>
         </svg>
       </div>
-      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
+      <span class="header-name" style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
     </a>
-    <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
+    <div class="header-nav" style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
       <a href="index.html#cases" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv1">Кейсы</a>
       <a href="index.html#contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv2">Контакты</a>
-      <a href="#" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv3">Обо мне</a>
+      <a href="#" class="nav-about hv3" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap">Обо мне</a>
     </div>
     <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
       <a href="./assets/resume.pdf" download="Nika-Kamenetskaya-CV.pdf" title="скачать резюме" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgba(60,60,60,0.07); color:rgb(60,60,60); font-size:14px; font-weight:700; transition:transform 0.2s ease" class="hv4">CV</a>
@@ -78,11 +102,11 @@
   </div>
 
   <!-- обо мне -->
-  <div data-screen-label="обо мне" style="flex:1; max-width:1440px; width:100%; margin:0 auto; padding:170px 160px 130px; box-sizing:border-box; animation:heroin 0.9s ease-out both">
-    <div style="display:flex; gap:80px; align-items:flex-start">
+  <div data-screen-label="обо мне" class="section-pad" style="flex:1; max-width:1440px; width:100%; margin:0 auto; padding:170px 160px 130px; box-sizing:border-box; animation:heroin 0.9s ease-out both">
+    <div class="about-row" style="display:flex; gap:80px; align-items:flex-start">
       <div class="photo-hover" style="position:relative; flex-shrink:0">
         <div style="width:340px; height:400px; transform:rotate(-2deg); position:relative">
-          <img src="/uploads/main_photo.jpg" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; object-position:25% center; border-radius:24px; display:block">
+          <img src="./uploads/main_photo.jpg" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; object-position:25% center; border-radius:24px; display:block">
         </div>
         <div class="photo-anno" style="position:absolute; left:-142px; top:26px; width:142px; display:flex; flex-direction:column; align-items:flex-end; gap:2px; z-index:4; pointer-events:none">
           <span style="font-family:Caveat,cursive; font-weight:700; font-size:26px; color:rgb(18,103,233); transform:rotate(-4deg)">Это горы</span>
@@ -100,7 +124,7 @@
           <div style="position:absolute; left:-104px; bottom:-6px; width:92px; height:74px; background:url('./assets/cats.png') 50.5% 86.5% / 335% 419% no-repeat; transform:rotate(-6deg)"></div>
         
       </div>
-      <div style="display:flex; flex-direction:column; gap:28px; padding-top:12px">
+      <div style="display:flex; flex-direction:column; gap:28px; padding-top:12px; min-width:0; flex:1">
         <span style="font-size:15px; color:rgb(18,103,233)">// Обо мне</span>
         <h1 style="margin:0; font-family:Unbounded,sans-serif; font-weight:600; font-size:44px; line-height:1.05; color:rgb(41,42,42)">Привет, я Ника <span style="color:rgb(18,103,233)">→</span> проектирую интерфейсы и рисую котиков</h1>
         <p style="margin:0; font-size:17px; line-height:1.65; color:rgb(85,85,87); max-width:560px; text-wrap:pretty">Junior продуктовый дизайнер с опытом в 1 год. Запускала внутри компании продукты, начинавшиеся как pet-проект чисто для себя, впоследствии вышедшие на внутренний рынок госкорпорации, суммарная капитализация которых составила <span style="color:rgb(18,103,233); font-weight:600">115 млн руб.</span></p>
@@ -109,10 +133,10 @@
   </div>
 
   <!-- опыт -->
-  <div data-screen-label="опыт" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
+  <div data-screen-label="опыт" class="section-pad" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
     <span style="font-size:15px; color:rgb(18,103,233)">// Опыт</span>
     <div style="display:flex; flex-direction:column; margin-top:26px; max-width:760px">
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
+      <div class="exp-row" style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
         <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">Сент. 2025 — Наст. время</div>
         <div style="display:flex; flex-direction:column; gap:10px">
           <div style="display:flex; flex-direction:row; gap:10px; align-items:baseline; flex-wrap:wrap">
@@ -122,7 +146,7 @@
           <p style="margin:0; font-size:15px; line-height:1.65; color:rgb(85,85,87); max-width:560px">Проектирую пользовательские флоу, интерактивные прототипы и вайрфреймы, развиваю компонентную базу. Разрабатываю функциональные иллюстрации и UI-элементы. Тесно работаю с разработчиками и аналитиками.</p>
         </div>
       </div>
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
+      <div class="exp-row" style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
         <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">Сент. 2021 — Сент. 2025</div>
         <div style="display:flex; flex-direction:column; gap:10px">
           <div style="display:flex; flex-direction:row; gap:10px; align-items:baseline; flex-wrap:wrap">
@@ -138,17 +162,17 @@
   </div>
 
   <!-- образование -->
-  <div data-screen-label="образование" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
+  <div data-screen-label="образование" class="section-pad" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
     <span style="font-size:15px; color:rgb(18,103,233)">// Образование</span>
     <div style="display:flex; flex-direction:column; margin-top:26px; max-width:760px">
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
+      <div class="edu-row" style="display:flex; flex-direction:row; gap:56px; padding:28px 0; border-bottom:1px solid rgba(60,60,60,0.15)">
         <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">2025 · Бакалавр</div>
         <div style="display:flex; flex-direction:column; gap:6px">
           <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">Российский государственный профессионально-педагогический университет, Екатеринбург</span>
           <span style="font-size:14px; color:rgb(18,103,233)">Информационные технологии по отраслям</span>
         </div>
       </div>
-      <div style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
+      <div class="edu-row" style="display:flex; flex-direction:row; gap:56px; padding:28px 0">
         <div style="width:210px; flex-shrink:0; font-size:14px; color:rgb(141,141,144); white-space:nowrap">2021 · Среднее специальное</div>
         <div style="display:flex; flex-direction:column; gap:6px">
           <span style="font-family:Unbounded,sans-serif; font-weight:600; font-size:20px; color:rgb(41,42,42)">УРТК им. А.С. Попова</span>
@@ -163,10 +187,10 @@
   </div>
 
   <!-- доска -->
-  <div data-screen-label="доска" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
+  <div data-screen-label="доска" class="section-pad" style="max-width:1440px; width:100%; margin:0 auto; padding:0 160px 130px; box-sizing:border-box">
     <span style="font-size:15px; color:rgb(18,103,233)">// Вне работы</span>
     <div style="position:relative; margin-top:26px">
-      <div style="position:relative; width:100%; aspect-ratio:1040/1000">
+      <div class="board-wrap" style="position:relative; width:100%; aspect-ratio:1040/1000">
 
         <div style="position:absolute; left:0%; top:4.17%; width:18.27%; box-sizing:border-box; background:#fff; padding:10px 10px 26px; box-shadow:0 14px 26px -10px rgba(0,0,0,0.35); transform:rotate(-6deg); cursor:zoom-in" data-lightbox="1">
           <div style="width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgb(255,120,110), rgb(190,40,40)); position:absolute; left:50%; top:-10px; margin-left:-10px; box-shadow:0 3px 4px rgba(0,0,0,0.35)"></div>
@@ -253,7 +277,7 @@
           <img src="./uploads/FC94B34A-E844-45D6-979E-8C849F62BA00_1_105_c.jpeg" alt="Переулок в Японии вечером" style="width:100%; display:block; object-fit:cover; aspect-ratio:1/1.3">
         </div>
 
-        <div style="position:absolute; left:32%; top:calc(33% + 70px); width:36%; box-sizing:border-box; transform:rotate(-2deg)">
+        <div style="position:absolute; left:32%; top:calc(33% + 70px); width:36%; box-sizing:border-box; transform:rotate(-2deg)" class="board-note">
           <span style="display:block; font-family:Caveat,cursive; font-weight:700; font-size:30px; line-height:1.35; color:rgb(18,103,233); text-align:center">В свободное время ищу горы, лошадей и приключения — желательно всё сразу</span>
         </div>
 
@@ -293,8 +317,8 @@
   </script>
 
   <!-- футер -->
-  <div style="padding:34px 160px; background:rgb(18,103,233)">
-    <div style="max-width:1120px; margin:0 auto; display:flex; flex-direction:row; justify-content:space-between; align-items:center; font-size:14px; color:rgba(255,255,255,0.75)">
+  <div class="section-pad" style="padding:34px 160px; background:rgb(18,103,233)">
+    <div class="footer-row" style="max-width:1120px; margin:0 auto; display:flex; flex-direction:row; justify-content:space-between; align-items:center; font-size:14px; color:rgba(255,255,255,0.75)">
       <span>Ника · продуктовый дизайнер</span>
       <a href="index.html" style="color:#fff; font-weight:700">← На главную</a>
       <span>© 2026</span>

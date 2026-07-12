@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="./uploads/nika-avatar.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: rgb(249,250,251); }
+    body { margin: 0; background: rgb(249,250,251); overflow-x: hidden; }
     a { color: rgb(232,138,20); text-decoration: none; }
     a:hover { color: rgb(178,94,20); }
     @keyframes heroin { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
@@ -21,6 +22,21 @@
     .contact-dd:hover .contact-menu { opacity: 1; transform: none; pointer-events: auto; }
     [data-header] { transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease; }
     [data-header].scrolled { background: rgba(255,255,255,0.62) !important; border-color: rgba(229,231,235,0.9) !important; box-shadow: 0 10px 28px -14px rgba(0,0,0,0.1) !important; backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important; }
+
+    /* ───────── mobile ───────── */
+    @media (max-width: 860px) {
+      .section-pad { padding-left: 24px !important; padding-right: 24px !important; }
+      [data-header] { width: calc(100vw - 24px) !important; padding: 0 8px 0 8px !important; }
+      .header-nav { display: flex !important; }
+      .header-nav a:not(.nav-about) { display: none !important; }
+      .nav-about { padding: 9px 14px !important; font-size: 13px !important; }
+      .header-name { display: none; }
+      h1[style*="font-size:56px"] { font-size: 34px !important; }
+      .meta-table { grid-template-columns: 1fr !important; gap: 4px !important; }
+      .meta-table > div:first-child { width: auto !important; padding-bottom: 0 !important; }
+      .contact-footer-row { flex-direction: column !important; gap: 8px; align-items: flex-start !important; }
+      h2[style*="font-size:72px"] { font-size: 12vw !important; }
+    }
   </style>
 
 <style>.hv1:hover{background:rgb(229,232,240)!important}.hv2:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv3:hover{background:rgb(238,240,245); color:rgb(41,42,42)!important}.hv4:hover{background:rgb(229,232,240); color:rgb(41,42,42); transform:scale(1.08)!important}.hv5:hover{background:rgb(29,78,216); transform:scale(1.08)!important}.hv6:hover{background:rgb(238,240,245)!important}.hv7:hover{background:rgb(238,240,245)!important}.hv8:hover{transform:translateY(-3px)!important}.hv9:hover{background:rgba(255,255,255,0.12); color:#fff!important}</style>
@@ -34,18 +50,18 @@
     <a href="index.html" data-cat="1" style="display:flex; flex-direction:row; gap:11px; align-items:center; justify-self:start; color:rgb(41,42,42)">
       <div style="position:relative; width:38px; height:38px; border-radius:12px; flex-shrink:0">
         <div style="width:38px; height:38px; border-radius:12px; overflow:hidden">
-          <img src="/uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
+          <img src="./uploads/nika-avatar.webp" alt="Ника Каменецкая" style="width:100%; height:100%; object-fit:cover; display:block">
         </div>
         <svg class="cat-sign" viewBox="0 0 70 70" style="position:absolute; left:-9px; top:-13px; width:62px; height:62px" fill="none" stroke="rgb(18,103,233)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path pathLength="200" d="M 14 22 C 13.5 17 14 10 16 5.5 C 19.5 8 22.5 11 24 14.5 M 38 14.5 C 39.5 11 42.5 8 46 5.5 C 48 10 48.5 17 48 22 M 53 43 C 60 44.5 66 41 65.5 35.5 C 65 31 60 30 58 33 C 56.5 35.5 59 38.5 62.5 38"></path>
         </svg>
       </div>
-      <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
+      <span class="header-name" style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; white-space:nowrap">Ника Каменецкая</span>
     </a>
-    <div style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
+    <div class="header-nav" style="display:flex; flex-direction:row; gap:4px; align-items:center; font-size:14px">
       <a href="index.html#cases" style="color:rgb(41,42,42); background:rgb(238,240,245); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv1">Кейсы</a>
       <a href="index.html#contact" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv2">Контакты</a>
-      <a href="about.html" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap" class="hv3">Обо мне</a>
+      <a href="about.html" class="nav-about hv3" style="color:rgb(60,60,60); border-radius:999px; padding:9px 18px; white-space:nowrap">Обо мне</a>
     </div>
     <div style="justify-self:end; display:flex; flex-direction:row; gap:8px; align-items:center">
       <a href="./assets/resume.pdf" download="Nika-Kamenetskaya-CV.pdf" title="скачать резюме" style="display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:rgba(60,60,60,0.07); color:rgb(60,60,60); font-size:14px; font-weight:700; transition:transform 0.2s ease" class="hv4">CV</a>
@@ -81,15 +97,15 @@
     <p style="margin:0 0 44px; font-size:18px; line-height:1.65; color:rgb(85,85,87); max-width:720px">Платформа мониторинга беспилотного такси: операторская панель для наблюдения за автопарком, состоянием машин и обращениями пассажиров в реальном времени.</p>
 
     <div style="border-radius:20px; background:#fff; box-shadow:0 8px 24px -14px rgba(20,30,60,0.2); padding:6px 32px; max-width:720px">
-      <div style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgb(238,240,245)">
+      <div class="meta-table" style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgb(238,240,245)">
         <span style="font-size:14px; color:rgb(141,141,144)">Роль</span>
         <span style="font-size:16px; color:rgb(41,42,42)">Продуктовый дизайнер</span>
       </div>
-      <div style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgb(238,240,245)">
+      <div class="meta-table" style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgb(238,240,245)">
         <span style="font-size:14px; color:rgb(141,141,144)">Платформа</span>
         <span style="font-size:16px; color:rgb(41,42,42)">Веб, десктоп</span>
       </div>
-      <div style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0">
+      <div class="meta-table" style="display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0">
         <span style="font-size:14px; color:rgb(141,141,144)">Инструменты</span>
         <span style="font-size:16px; color:rgb(41,42,42)">Figma · Auto Layout · Variables</span>
       </div>
@@ -102,7 +118,7 @@
   </div>
 
   <!-- контакты -->
-  <div data-screen-label="контакты" style="position:relative; padding:110px 160px 90px; background:rgb(18,103,233); overflow:hidden">
+  <div data-screen-label="контакты" class="section-pad" style="position:relative; padding:110px 160px 90px; background:rgb(18,103,233); overflow:hidden">
     <div style="max-width:1120px; margin:0 auto; position:relative">
       <span style="font-size:15px; color:rgba(255,255,255,0.7)">// Контакты</span>
       <h2 style="margin:20px 0 40px; font-family:Unbounded,sans-serif; font-weight:600; font-size:72px; line-height:0.95; color:#fff; max-width:900px">НАПИШЕМ <span style="white-space:nowrap">ЧТО-НИБУДЬ</span><br>ХОРОШЕЕ?</h2>
@@ -110,7 +126,7 @@
         <a href="mailto:nicakam788@gmail.com" target="_top" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:rgb(18,103,233); background:#fff; border-radius:999px; padding:18px 32px; transition:transform 0.2s ease" class="hv8">Почта → nicakam788@gmail.com</a>
         <a href="https://t.me/evershire" style="display:inline-flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:#fff; border:2px solid rgba(255,255,255,0.7); border-radius:999px; padding:16px 32px" class="hv9">Телеграм → @evershire</a>
       </div>
-      <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
+      <div class="contact-footer-row" style="display:flex; flex-direction:row; justify-content:space-between; margin-top:90px; font-size:14px; color:rgba(255,255,255,0.65)">
         <span>Ника Каменецкая · продуктовый дизайнер</span>
         <span>© 2026</span>
       </div>
